@@ -11,32 +11,40 @@ public static class ArgumentsHandler
     /// </summary>
     public static void HandleArgs(string[] args)
     {
+        #region options
         //* Show the help message.
         if (args.Length == 0 || args[0] == "--help" || args[0] == "-h") {
             Console.WriteLine(
                 "Thank you for using Money_CLI!" + Environment.NewLine +
                 Environment.NewLine +
-                "Usage: money [options]" + Environment.NewLine +
+                "Usage: money [options] [command] [command options]" + Environment.NewLine +
                 Environment.NewLine +
                 "Options:" + Environment.NewLine +
-                "  -h|--help\t\t\t\t\tDisplay help." + Environment.NewLine +
-                "  -a|--add <type> [additional arguments]\tAdd expense/income." + Environment.NewLine + // TODO
-                "  -e|--export <type>\t\t\t\tExport expenses/incomes." + Environment.NewLine +
-                "  -l|--list <type>\t\t\t\tList expenses/incomes." + Environment.NewLine + // TODO
-                "  -r|--remove <type> <id>\t\t\tRemove expense/income." + Environment.NewLine + // TODO
-                "  --set-folder <type> <path>\t\t\tSet root folder for the export function." + Environment.NewLine + // TODO
-                "  --set-database <path>\t\t\t\tSet database path." + Environment.NewLine + // TODO
+                "  -h|--help\t\t\tDisplay help." + Environment.NewLine +
+                "  --set-folder <path>\t\tSet root folder for the export function." + Environment.NewLine + // TODO
+                "  --set-database <path>\t\tSet database folder path." + Environment.NewLine + // TODO
+                "  --set-currency <code>\t\tSet the currency for the exported file." + Environment.NewLine + // TODO
                 Environment.NewLine +
+                "Commands:" + Environment.NewLine +
+                "  add <type> [arguments]\tAdd expense/income." + Environment.NewLine + // TODO
+                "  export <type>\t\t\tExport expenses/incomes." + Environment.NewLine +
+                "  list <type>\t\t\tList expenses/incomes." + Environment.NewLine + // TODO
+                "  remove <type> <id>\t\tRemove expense/income." + Environment.NewLine + // TODO
+                Environment.NewLine +
+                "Command options:" + Environment.NewLine +
+                "  -h|--help\t\t\tDisplay help about the specified command." + Environment.NewLine +
                 "Types:" + Environment.NewLine +
                 "  e|expense\tExpense." + Environment.NewLine +
-                "  i|income\tIncome." + Environment.NewLine
+                "  i|income\tIncome." + Environment.NewLine +
+                Environment.NewLine
             );
             return;
         }
+        #endregion
 
-        //* Use the export functionality.
-        if (args[0] == "--export" || args[0] == "-e")
-        {
+        #region commands
+        //* Use the export command.
+        if (args[0] == "export") {
             if (args.Length == 1) {
                 PrintError("No type provided.");
                 return;
@@ -63,6 +71,7 @@ public static class ArgumentsHandler
         }
 
         PrintError("Invalid argument(s).");
+        #endregion
     }
 
     /// <summary>
