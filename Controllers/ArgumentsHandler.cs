@@ -24,6 +24,8 @@ public static class ArgumentsHandler
                 "  -e|--export <type>\t\t\t\tExport expenses/incomes." + Environment.NewLine +
                 "  -l|--list <type>\t\t\t\tList expenses/incomes." + Environment.NewLine + // TODO
                 "  -r|--remove <type> <id>\t\t\tRemove expense/income." + Environment.NewLine + // TODO
+                "  --set-folder <type> <path>\t\t\tSet root folder for the export function." + Environment.NewLine + // TODO
+                "  --set-database <path>\t\t\t\tSet database path." + Environment.NewLine + // TODO
                 Environment.NewLine +
                 "Types:" + Environment.NewLine +
                 "  e|expense\tExpense." + Environment.NewLine +
