@@ -22,7 +22,7 @@ However, any significant improvement should be associated to an existing issue.
 
 > Note that if you are adding a new feature, or refactoring or changing the behavior of an existing one in any manner, you'll likely want to document the changes.
 >
-> This can easily be achieved by adding comments on your code and explaining your additions or changes in the PR description.
+> This can easily be achieved by adding comments on your code or in the PR description.
 
 ### Getting started
 
