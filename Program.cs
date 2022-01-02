@@ -8,7 +8,6 @@ class Program
 {
     static void Main(string[] args)
     {
-        FileHandler.Export(ChangeType.Income);
-        FileHandler.Export(ChangeType.Expense);
+        ArgumentsHandler.HandleArgs(args);
     }
 }
