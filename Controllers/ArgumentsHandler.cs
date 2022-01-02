@@ -43,7 +43,7 @@ public static class ArgumentsHandler
         #endregion
 
         #region commands
-        //* Use the export command.
+        //* The export command.
         if (args[0] == "export") {
             if (args.Length == 1) {
                 PrintError("No type provided.");
@@ -51,18 +51,30 @@ public static class ArgumentsHandler
             }
 
             if (args.Length == 2) {
-                ChangeType type;
-
-                if (args[1].ToLower() == "income" || args[1].ToLower() == "i") {
-                    type = ChangeType.Income;
-                } else if (args[1].ToLower() == "expense" || args[1].ToLower() == "e") {
-                    type = ChangeType.Expense;
-                } else {
-                    PrintError("Invalid type.");
+                // Get help on the command.
+                if (args[1] == "--help" || args[1] == "-h") {
+                    Console.WriteLine(
+                        "Export the expenses/incomes." + Environment.NewLine +
+                        Environment.NewLine +
+                        "Usage: money export <type>" + Environment.NewLine +
+                        Environment.NewLine +
+                        "Types:" + Environment.NewLine +
+                        "  e|expense\tExport expenses." + Environment.NewLine +
+                        "  i|income\tExport incomes." + Environment.NewLine +
+                        Environment.NewLine
+                    );
                     return;
                 }
 
-                FileHandler.Export(type);
+                // Use the command.
+                if (args[1] == "income" || args[1] == "i") {
+                    FileHandler.Export(ChangeType.Income);
+                } else if (args[1] == "expense" || args[1] == "e") {
+                    FileHandler.Export(ChangeType.Expense);
+                } else {
+                    PrintError("Invalid type.");
+                }
+
                 return;
             }
 
