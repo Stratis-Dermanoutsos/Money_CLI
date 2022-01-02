@@ -15,7 +15,6 @@ public static class ArgumentsHandler
         //* Show the help message.
         if (args.Length == 0 || args[0] == "--help" || args[0] == "-h") {
             Console.WriteLine(
-                "Thank you for using Money_CLI!" + Environment.NewLine +
                 Environment.NewLine +
                 "Usage: money [options] [command] [command options]" + Environment.NewLine +
                 Environment.NewLine +
@@ -33,6 +32,7 @@ public static class ArgumentsHandler
                 Environment.NewLine +
                 "Command options:" + Environment.NewLine +
                 "  -h|--help\t\t\tDisplay help about the specified command." + Environment.NewLine +
+                Environment.NewLine +
                 "Types:" + Environment.NewLine +
                 "  e|expense\tExpense." + Environment.NewLine +
                 "  i|income\tIncome." + Environment.NewLine +
