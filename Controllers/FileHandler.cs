@@ -73,7 +73,7 @@ public static class FileHandler
                 Console.WriteLine("Created file: " + fullPath);
             }
 
-            Console.WriteLine($"Your money will be exported to: '{fullPath}'");
+            Console.WriteLine("Your " + (changeType == ChangeType.Expense ? "expenses" : "income") + $" will be exported to: '{fullPath}'");
 
             return fullPath;
         } catch (Exception) {
