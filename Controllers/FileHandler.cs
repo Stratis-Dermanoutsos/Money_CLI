@@ -10,21 +10,9 @@ using System.Threading.Tasks;
 using Money_CLI.Models;
 using Money_CLI.Models.Enums;
 
-public static class FileHandler
+public class FileHandler : Handler
 {
     private static readonly string rootFolder = @"\Volumes\Stratis_SSD\PERSONAL\Money\";
-
-    /// <summary>
-    /// Get date in array format.
-    /// </summary>
-    public static int[] GetDate()
-    {
-        int year = DateTime.Now.Year;
-        int month = DateTime.Now.Month;
-        int day = DateTime.Now.Day;
-
-        return new int[]{ day, month, year };
-    }
 
     /// <summary>
     /// Get the string file name for the current date.

@@ -1,9 +1,10 @@
 namespace Money_CLI.Controllers;
 
 using System;
+using Money_CLI.Models;
 using Money_CLI.Models.Enums;
 
-public static class ArgumentsHandler
+public class ArgumentsHandler : Handler
 {
     /// <summary>
     /// Gets the arguments from the command line.
@@ -68,9 +69,11 @@ public static class ArgumentsHandler
 
                 // Use the command.
                 if (args[1] == "income" || args[1] == "i") {
-                    FileHandler.Export(ChangeType.Income);
+                    if (!FileHandler.Export(ChangeType.Income))
+                        PrintError("Could not export the income.");
                 } else if (args[1] == "expense" || args[1] == "e") {
-                    FileHandler.Export(ChangeType.Expense);
+                    if (!FileHandler.Export(ChangeType.Expense))
+                        PrintError("Could not export the expenses.");
                 } else {
                     PrintError("Invalid type.");
                 }
