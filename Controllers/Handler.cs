@@ -3,7 +3,7 @@ namespace Money_CLI.Controllers;
 public class Handler
 {
     /// <summary>
-    /// Get date in array format.
+    /// Returns the date in array format.
     /// </summary>
     public static int[] GetDate()
     {
