@@ -34,30 +34,30 @@ public static class MoneyHandler
 
     #region All monthly income and expenses
     /// <summary>
-    /// Returns an IOrderedQueryable containing all monthly expenses.
+    /// Returns an List containing all monthly expenses.
     /// </summary>
-    public static IOrderedQueryable<Expense> AllMonthlyExpenses(int month, int year)
+    public static List<Expense> AllMonthlyExpenses(int month, int year)
     {
         using (AppDbContext context = new AppDbContext())
         {
             return context.Expenses
                             .Where(i => i.Month == month && i.Year == year)
                             .OrderBy(i => i.Day)
-                            .ThenBy(i => i.Title);
+                            .ThenBy(i => i.Title).ToList();
         }
     }
 
     /// <summary>
-    /// Returns an IOrderedQueryable containing all monthly income.
+    /// Returns an List containing all monthly income.
     /// </summary>
-    public static IOrderedQueryable<Income> AllMonthlyIncome(int month, int year)
+    public static List<Income> AllMonthlyIncome(int month, int year)
     {
         using (AppDbContext context = new AppDbContext())
         {
             return context.Incomes
                             .Where(i => i.Month == month && i.Year == year)
                             .OrderBy(i => i.Day)
-                            .ThenBy(i => i.Title);
+                            .ThenBy(i => i.Title).ToList();
         }
     }
     #endregion
