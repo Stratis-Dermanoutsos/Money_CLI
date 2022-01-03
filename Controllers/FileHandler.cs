@@ -97,45 +97,42 @@ public static class FileHandler
             List<string> template;
             double total = 0;
 
-            using (AppDbContext context = new AppDbContext())
+            switch (changeType)
             {
-                switch (changeType)
-                {
-                    case ChangeType.Income:
-                        // Get total amount
-                        total = MoneyHandler.TotalMonthlyIncome(month, year);
+                case ChangeType.Income:
+                    // Get total amount
+                    total = MoneyHandler.TotalMonthlyIncome(month, year);
 
-                        // Load the file template
-                        template = FileTemplates.FileTemplate(
-                                "Income",
-                                CurrentFileName(),
-                                total
-                            ).ToList();
+                    // Load the file template
+                    template = FileTemplates.FileTemplate(
+                            "Income",
+                            CurrentFileName(),
+                            total
+                        ).ToList();
 
-                        // Get all entries and add them to the list
-                        foreach (Income income in MoneyHandler.AllMonthlyIncome(month, year))
-                            template.Add(income.ToString());
+                    // Get all entries and add them to the list
+                    foreach (Income income in MoneyHandler.AllMonthlyIncome(month, year))
+                        template.Add(income.ToString());
 
-                        break;
-                    case ChangeType.Expense:
-                        // Get total amount
-                        total = MoneyHandler.TotalMonthlyExpenses(month, year);
+                    break;
+                case ChangeType.Expense:
+                    // Get total amount
+                    total = MoneyHandler.TotalMonthlyExpenses(month, year);
 
-                        // Load the file template
-                        template = FileTemplates.FileTemplate(
-                                "Expenses",
-                                CurrentFileName(),
-                                total
-                            ).ToList();
+                    // Load the file template
+                    template = FileTemplates.FileTemplate(
+                            "Expenses",
+                            CurrentFileName(),
+                            total
+                        ).ToList();
 
-                        // Get all entries and add them to the list
-                        foreach (Expense expense in MoneyHandler.AllMonthlyExpenses(month, year))
-                            template.Add(expense.ToString());
+                    // Get all entries and add them to the list
+                    foreach (Expense expense in MoneyHandler.AllMonthlyExpenses(month, year))
+                        template.Add(expense.ToString());
 
-                        break;
-                    default:
-                        return false;
-                }
+                    break;
+                default:
+                    return false;
             }
 
             // Write the file
