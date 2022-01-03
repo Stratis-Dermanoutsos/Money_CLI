@@ -103,9 +103,8 @@ public static class FileHandler
                 {
                     case ChangeType.Income:
                         // Get total amount
-                        total = context.Incomes
-                            .Where(i => i.Month == month)
-                            .Sum(i => (double)i.Amount);
+                        total = MoneyHandler.TotalMonthlyIncome(month, year);
+
                         // Load the file template
                         template = FileTemplates.FileTemplate(
                                 "Income",
@@ -114,17 +113,14 @@ public static class FileHandler
                             ).ToList();
 
                         // Get all entries and add them to the list
-                        foreach (Income income in context.Incomes
-                                                    .Where(i => i.Month == month && i.Year == year)
-                                                    .OrderBy(i => i.Day)
-                                                    .ThenBy(i => i.Title))
+                        foreach (Income income in MoneyHandler.AllMonthlyIncome(month, year))
                             template.Add(income.ToString());
+
                         break;
                     case ChangeType.Expense:
                         // Get total amount
-                        total = context.Expenses
-                            .Where(i => i.Month == month)
-                            .Sum(i => (double)i.Amount);
+                        total = MoneyHandler.TotalMonthlyExpenses(month, year);
+
                         // Load the file template
                         template = FileTemplates.FileTemplate(
                                 "Expenses",
@@ -133,11 +129,9 @@ public static class FileHandler
                             ).ToList();
 
                         // Get all entries and add them to the list
-                        foreach (Expense expense in context.Expenses
-                                                    .Where(i => i.Month == month && i.Year == year)
-                                                    .OrderBy(i => i.Day)
-                                                    .ThenBy(i => i.Title))
+                        foreach (Expense expense in MoneyHandler.AllMonthlyExpenses(month, year))
                             template.Add(expense.ToString());
+
                         break;
                     default:
                         return false;
