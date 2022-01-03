@@ -5,6 +5,9 @@ using Money_CLI.Models;
 public static class MoneyHandler
 {
     #region Get total monthly income and expenses
+    /// <summary>
+    /// Returns the sum of all expenses for specified month.
+    /// </summary>
     public static double TotalMonthlyExpenses(int month, int year)
     {
         using (AppDbContext context = new AppDbContext())
@@ -15,6 +18,9 @@ public static class MoneyHandler
         }
     }
 
+    /// <summary>
+    /// Returns the sum of all income for specified month.
+    /// </summary>
     public static double TotalMonthlyIncome(int month, int year)
     {
         using (AppDbContext context = new AppDbContext())
@@ -27,6 +33,9 @@ public static class MoneyHandler
     #endregion
 
     #region All monthly income and expenses
+    /// <summary>
+    /// Returns an IOrderedQueryable containing all monthly expenses.
+    /// </summary>
     public static IOrderedQueryable<Expense> AllMonthlyExpenses(int month, int year)
     {
         using (AppDbContext context = new AppDbContext())
@@ -38,6 +47,9 @@ public static class MoneyHandler
         }
     }
 
+    /// <summary>
+    /// Returns an IOrderedQueryable containing all monthly income.
+    /// </summary>
     public static IOrderedQueryable<Income> AllMonthlyIncome(int month, int year)
     {
         using (AppDbContext context = new AppDbContext())
