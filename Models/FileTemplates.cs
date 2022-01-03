@@ -11,7 +11,7 @@ public static class FileTemplates
             $"## Total: {total.ToString("C", new CultureInfo("el-GR"))}",
             string.Empty,
             "| Title | Amount | Date | Comment |",
-            "| --- | --- | --- | --- |",
+            "| --- | --: | --- | --- |",
         };
     }
 }
