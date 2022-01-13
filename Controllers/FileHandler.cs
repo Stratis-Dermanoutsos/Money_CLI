@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Money_CLI.Models;
 using Money_CLI.Models.Enums;
 
-public class FileHandler : Handler
+public class FileHandler : GenericController
 {
     private static readonly string rootFolder = @"\Volumes\Stratis_SSD\PERSONAL\Money\";
 

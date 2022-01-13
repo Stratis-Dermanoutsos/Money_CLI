@@ -89,11 +89,4 @@ public class ArgumentsHandler : Handler
         #endregion
     }
 
-    /// <summary>
-    /// Prints a message to the console, in error format.
-    /// </summary>
-    public static void PrintError(string message)
-    {
-        Console.WriteLine(message, Console.ForegroundColor = ConsoleColor.Red);
-    }
 }
