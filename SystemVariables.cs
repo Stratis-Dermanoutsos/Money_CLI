@@ -6,10 +6,19 @@ using System.Text.Json.Serialization;
 
 public static class SystemVariables
 {
+    /// <summary>
+    /// The path to the executable's directory.
+    /// </summary>
     private static string _AppDomain { get => AppDomain.CurrentDomain.BaseDirectory; }
 
+    /// <summary>
+    /// The full path to the System Variables file.
+    /// </summary>
     private static string SystemVariablesFileName { get => @$"{_AppDomain}SystemVariables.json"; }
 
+    /// <summary>
+    /// Handles the path for the folder used to export data.
+    /// </summary>
     public static string ExportFolder {
         get {
             return Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -20,6 +29,9 @@ public static class SystemVariables
         }
     }
 
+    /// <summary>
+    /// Handles the path for the folder used to host our database.
+    /// </summary>
     public static string DatabaseFolder {
         get {
             return Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -30,6 +42,9 @@ public static class SystemVariables
         }
     }
 
+    /// <summary>
+    /// Handles the currency that is returned on export.
+    /// </summary>
     public static string Currency {
         get {
             return Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -40,6 +55,9 @@ public static class SystemVariables
         }
     }
 
+    /// <summary>
+    /// Creates the system variables file.
+    /// </summary>
     public static void Create() {
         if (File.Exists(SystemVariablesFileName))
             return;
