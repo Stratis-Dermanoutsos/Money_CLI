@@ -10,7 +10,11 @@ public class Handlers
         string SetDatabase,
         string SetCurrency
     ) {
-        // TODO: Handle SetExport.
+        if (Directory.Exists(SetExport))
+            SystemVariables.ExportFolder = SetExport;
+        else
+            GenericController.PrintError("Export folder does not exist.");
+
         // TODO: Handle SetDatabase.
         // TODO: Handle SetCurrency.
     }

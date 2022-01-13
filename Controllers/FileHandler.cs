@@ -12,8 +12,6 @@ using Money_CLI.Models.Enums;
 
 public class FileHandler : GenericController
 {
-    private static readonly string rootFolder = @"\Volumes\Stratis_SSD\PERSONAL\Money\";
-
     /// <summary>
     /// Returns the string file name for the current date.
     /// </summary>
@@ -48,17 +46,17 @@ public class FileHandler : GenericController
             string folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{GetDate[2]}/");
             if (!Directory.Exists(folderPath)) {
                 Directory.CreateDirectory(folderPath);
-                PrintSuccess("Created folder: " + folderPath);
+                PrintSuccess($"Created folder '{folderPath}'.");
             }
 
             // Create the file, if it doesn't exist
             string fullPath = @$"{folderPath}{CurrentFileName}.md";
             if (!File.Exists(fullPath)) {
                 File.Create(fullPath).Close();
-                PrintSuccess("Created file: " + fullPath);
+                PrintSuccess($"Created file '{fullPath}'.");
             }
 
-            PrintSuccess("Your " + (changeType == ChangeType.Expense ? "expenses" : "income") + $" will be exported to '{fullPath}'");
+            PrintSuccess("Your " + (changeType == ChangeType.Expense ? "expenses" : "income") + $" will be exported to '{fullPath}'.");
 
             return fullPath;
         } catch (Exception) {
