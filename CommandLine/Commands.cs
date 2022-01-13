@@ -10,7 +10,7 @@ public class Commands
         get
         {
             RootCommand _root = new RootCommand(
-                description: "Add an income or expense."
+                description: "Open source CLI tool for one to note their money usage."
             );
 
             _root.Handler = CommandHandler.Create<string, string, string>(Handlers.ExecuteRoot);
