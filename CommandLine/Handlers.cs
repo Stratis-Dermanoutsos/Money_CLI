@@ -1,0 +1,38 @@
+namespace Money_CLI.CommandLine;
+
+using Money_CLI.Controllers;
+using Money_CLI.Models.Enums;
+
+public class Handlers
+{
+    public static void ExecuteRoot(
+        string SetExport,
+        string SetDatabase,
+        string SetCurrency
+    ) {
+        // TODO: Handle SetExport.
+        // TODO: Handle SetDatabase.
+        // TODO: Handle SetCurrency.
+    }
+
+    public static void ExecuteExport(
+        bool Expense,
+        bool Income
+    ) {
+        if (Expense) {
+            if (!FileHandler.Export(ChangeType.Expense))
+                GenericController.PrintError("Could not export the expenses.");
+
+            return;
+        }
+
+        if (Income) {
+            if (!FileHandler.Export(ChangeType.Income))
+                GenericController.PrintError("Could not export the income.");
+
+            return;
+        }
+
+        Console.WriteLine("Provide a valid option to export.");
+    }
+}

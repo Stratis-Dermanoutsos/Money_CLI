@@ -1,15 +1,23 @@
 ﻿namespace Money_CLI;
 
+using System.CommandLine;
+using System.CommandLine.Invocation;
+using System.CommandLine.NamingConventionBinder;
+using System.IO;
+using Money_CLI.CommandLine;
 using Money_CLI.Controllers;
+using Money_CLI.Models.Enums;
 
 class Program
 {
     /// <summary>
     /// The main entry point for the application.
-    /// It does not actually do anything other than pass the arguments to the handler.
     /// </summary>
-    static void Main(string[] args)
+    public static async Task<int> Main(params string[] args)
     {
-        ArgumentsHandler.HandleArgs(args);
+        // First, set the SystemVariables, in case it does not exist.
+        SystemVariables.Create();
+
+        return await Commands.Root.InvokeAsync(args);
     }
 }
