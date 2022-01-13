@@ -51,17 +51,17 @@ public class FileHandler : GenericController
             string folderPath = @$"{rootFolder}{categoryFolder}/{date[2]}/".Replace("\\", "/");
             if (!Directory.Exists(folderPath)) {
                 Directory.CreateDirectory(folderPath);
-                Console.WriteLine("Created folder: " + folderPath);
+                PrintSuccess("Created folder: " + folderPath);
             }
 
             // Create the file, if it doesn't exist
             string fullPath = @$"{folderPath}{CurrentFileName()}.md";
             if (!File.Exists(fullPath)) {
                 File.Create(fullPath).Close();
-                Console.WriteLine("Created file: " + fullPath);
+                PrintSuccess("Created file: " + fullPath);
             }
 
-            Console.WriteLine("Your " + (changeType == ChangeType.Expense ? "expenses" : "income") + $" will be exported to: '{fullPath}'");
+            PrintSuccess("Your " + (changeType == ChangeType.Expense ? "expenses" : "income") + $" will be exported to '{fullPath}'");
 
             return fullPath;
         } catch (Exception) {

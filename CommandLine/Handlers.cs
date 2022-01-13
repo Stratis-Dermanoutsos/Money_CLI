@@ -33,6 +33,6 @@ public class Handlers
             return;
         }
 
-        Console.WriteLine("Provide a valid option to export.");
+        GenericController.PrintError("Provide a valid option to export.");
     }
 }
