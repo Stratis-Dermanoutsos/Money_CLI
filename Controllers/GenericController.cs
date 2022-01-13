@@ -36,6 +36,14 @@ public class GenericController
     }
 
     /// <summary>
+    /// Prints a message to the console, in warning format.
+    /// </summary>
+    public static void PrintWarning(string message)
+    {
+        Console.WriteLine(message, Console.ForegroundColor = ConsoleColor.Yellow);
+    }
+
+    /// <summary>
     /// Ensures a directory contains correct Separator characters.
     /// For better understanding, go to https://docs.microsoft.com/en-us/dotnet/api/system.io.path.directoryseparatorchar
     /// </summary>

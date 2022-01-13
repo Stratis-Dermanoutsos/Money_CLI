@@ -17,7 +17,13 @@ public class Handlers
                 GenericController.PrintError("Export folder does not exist.");
         }
 
-        // TODO: Handle SetDatabase.
+        if (SetDatabase != null) {
+            if (Directory.Exists(SetDatabase))
+                SystemVariables.DatabaseFolder = SetDatabase;
+            else
+                GenericController.PrintError("Database folder does not exist.");
+        }
+
         // TODO: Handle SetCurrency.
     }
 

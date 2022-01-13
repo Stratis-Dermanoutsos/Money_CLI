@@ -50,23 +50,41 @@ public static class SystemVariables
                 string json = JsonSerializer.Serialize(_data);
                 File.WriteAllText(SystemVariablesFileName, json);
 
-                GenericController.PrintSuccess($"The export folder has successfully been set.");
+                GenericController.PrintSuccess("Export folder has successfully been set.");
             } catch (Exception) {
-                GenericController.PrintError("Could not set the export folder.");
+                GenericController.PrintError("Could not set export folder.");
             }
         }
     }
 
     /// <summary>
-    /// Handles the path for the folder used to host our database.
+    /// Handles the path for the folder used to host the database.
     /// </summary>
     public static string DatabaseFolder {
         get {
-            return Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            try {
+                return SystemVariablesJSON["DATABASE_FOLDER"];
+            } catch (Exception) {
+                return string.Empty;
+            }
         }
 
         set {
-            
+            try {
+                Dictionary<string, string>? _data = SystemVariablesJSON;
+
+                string oldValue = _data["DATABASE_FOLDER"];
+
+                _data["DATABASE_FOLDER"] = GenericController.EnsureDirectory(value);
+
+                string json = JsonSerializer.Serialize(_data);
+                File.WriteAllText(SystemVariablesFileName, json);
+
+                GenericController.PrintSuccess("Database folder has successfully been set.");
+                GenericController.PrintWarning($"For the tool to continue working, please move 'money.db' from '{oldValue}' to '{value}'.");
+            } catch (Exception) {
+                GenericController.PrintError("Could not set database folder.");
+            }
         }
     }
 
@@ -90,14 +108,20 @@ public static class SystemVariables
         if (File.Exists(SystemVariablesFileName))
             return;
 
-        File.Create(SystemVariablesFileName).Close();
+        try {
+            File.Create(SystemVariablesFileName).Close();
 
-        Dictionary<string, string> _data = new Dictionary<string, string>();
-        _data.Add("EXPORT_FOLDER", _AppDomain);
-        _data.Add("DATABASE_FOLDER", _AppDomain);
-        _data.Add("CURRENCY", "USD");
+            Dictionary<string, string> _data = new Dictionary<string, string>();
+            _data.Add("EXPORT_FOLDER", _AppDomain);
+            _data.Add("DATABASE_FOLDER", _AppDomain);
+            _data.Add("CURRENCY", "USD");
 
-        string json = JsonSerializer.Serialize(_data);
-        File.WriteAllText(SystemVariablesFileName, json);
+            string json = JsonSerializer.Serialize(_data);
+            File.WriteAllText(SystemVariablesFileName, json);
+
+            GenericController.PrintSuccess("System variables file has successfully been created.");
+        } catch (Exception) {
+            GenericController.PrintError("Could not create system variables file.");
+        }
     }
 }
