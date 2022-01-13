@@ -67,18 +67,22 @@ public class FileHandler : GenericController
     }
 
     /// <summary>
-    /// Export all changes to the current file.
+    /// Exports all changes to the current file.
     /// </summary>
-    public static bool Export(ChangeType changeType)
+    public static bool Export(ChangeType changeType, int month = -1, int year = -1)
     {
         string? file = GetFile(changeType);
 
         if (file == null)
             return false;
 
+        if (month == -1)
+            month = GetDate[1];
+
+        if (year == -1)
+            year = GetDate[2];
+
         try {
-            int month = GetDate()[1];
-            int year = GetDate()[2];
             List<string> template;
             double total = 0;
 
