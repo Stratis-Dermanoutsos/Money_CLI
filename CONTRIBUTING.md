@@ -1,4 +1,4 @@
-# Contributing guidelines
+# Contributing Guidelines
 
 Any contribution is more than welcome!
 
@@ -21,9 +21,11 @@ However, any significant improvement should be associated to an existing issue.
 ## Getting started
 
 1. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the [Money_CLI repository](https://github.com/Stratis-Dermanoutsos/Money_CLI).
-2. Run the project.
+2. [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) it.
+3. Run the project.
 
-    ```bash
-    dotnet run -- (-h|--help)
-    ```
-3. You choose! Play around, implement something.
+   ```bash
+   dotnet run -- (-h|--help)
+   ```
+
+4. You choose! Play around, implement something.

@@ -4,31 +4,17 @@ Money is an Open Source CLI tool for anyone to note and see quick stats of their
 
 It is a private, lightweight and easy to use solution.
 
+## Table of Contents
+
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Contributing
 
-Any contribution is more than welcome!
+Contributions are always welcome! Please follow the [Contributing Guidelines](https://github.com/Stratis-Dermanoutsos/Money_CLI/blob/main/CONTRIBUTING.md#contributing-guidelines) if you want to help.
 
-### Reporting Issues
+You can find our current feature and bug priorities in the [issues section](https://github.com/Stratis-Dermanoutsos/Money_CLI/issues).
 
-A great way to contribute to the project is to raise an issue.
+## License
 
-Please make sure to include a detailed description on how you encountered the bug so that it can be reproduced without great efforts. The better a bug can be reproduced, the faster it can be fixed!
-
-### Pull Requests
-
-We'd love to see your pull requests, even if it's just a typo correction!
-
-However, any significant improvement should be associated to an existing issue.
-
-> Note that if you are adding a new feature, or refactoring or changing the behavior of an existing one in any manner, you'll likely want to document the changes.
->
-> This can easily be achieved by adding comments on your code or in the PR description.
-
-### Getting started
-
-1. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the [Money_CLI repository](https://github.com/Stratis-Dermanoutsos/Money_CLI).
-2. Run the project.
-
-    ```bash
-    dotnet run -- (-h|--help)
-    ```
+Money_CLI is licensed under [GNU General Public License v3.0](https://github.com/Stratis-Dermanoutsos/Money_CLI/blob/main/LICENSE).
