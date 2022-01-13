@@ -33,9 +33,6 @@ public class FileHandler : GenericController
     public static string? GetFile(ChangeType changeType)
     {
         try {
-            // Get necessary date information
-            int[] date = GetDate();
-
             // Set the category folder
             string categoryFolder;
             switch (changeType) {
@@ -48,7 +45,7 @@ public class FileHandler : GenericController
             }
 
             // Create the folder, if it doesn't exist
-            string folderPath = @$"{rootFolder}{categoryFolder}/{date[2]}/".Replace("\\", "/");
+            string folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{GetDate[2]}/");
             if (!Directory.Exists(folderPath)) {
                 Directory.CreateDirectory(folderPath);
                 PrintSuccess("Created folder: " + folderPath);
