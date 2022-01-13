@@ -6,7 +6,7 @@ It is a private, lightweight and easy to use solution.
 
 ## Contributing
 
-Any contribution to Nuxt is more than welcome!
+Any contribution is more than welcome!
 
 ### Reporting Issues
 
@@ -30,5 +30,5 @@ However, any significant improvement should be associated to an existing issue.
 2. Run the project.
 
     ```bash
-    dotnet run (-h|--help)
+    dotnet run -- (-h|--help)
     ```
