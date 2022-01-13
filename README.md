@@ -1,5 +1,7 @@
 # Money_CLI
 
+![Money CLI](https://img.shields.io/badge/Money-CLI-blueviolet)
+
 Money is an Open Source CLI tool for anyone to note and see quick stats of their money usage.
 
 It is a private, lightweight and easy to use solution.
