@@ -15,15 +15,15 @@ public class FileHandler : GenericController
     private static readonly string rootFolder = @"\Volumes\Stratis_SSD\PERSONAL\Money\";
 
     /// <summary>
-    /// Get the string file name for the current date.
+    /// Returns the string file name for the current date.
     /// </summary>
-    public static string CurrentFileName()
+    public static string CurrentFileName
     {
-        // Get necessary date information
-        int[] date = GetDate();
-        string monthFullName = DateTime.Now.ToString("MMMM");
+        get {
+            string monthFullName = DateTime.Now.ToString("MMMM");
 
-        return $"{date[1].ToString("00")}-{monthFullName}";
+            return $"{GetDate[1].ToString("00")}-{monthFullName}";
+        }
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ public class FileHandler : GenericController
             }
 
             // Create the file, if it doesn't exist
-            string fullPath = @$"{folderPath}{CurrentFileName()}.md";
+            string fullPath = @$"{folderPath}{CurrentFileName}.md";
             if (!File.Exists(fullPath)) {
                 File.Create(fullPath).Close();
                 PrintSuccess("Created file: " + fullPath);
@@ -94,7 +94,7 @@ public class FileHandler : GenericController
                     // Load the file template
                     template = FileTemplates.FileTemplate(
                             "Income",
-                            CurrentFileName(),
+                            CurrentFileName,
                             total
                         ).ToList();
 
@@ -110,7 +110,7 @@ public class FileHandler : GenericController
                     // Load the file template
                     template = FileTemplates.FileTemplate(
                             "Expenses",
-                            CurrentFileName(),
+                            CurrentFileName,
                             total
                         ).ToList();
 
