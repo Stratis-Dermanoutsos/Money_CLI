@@ -12,18 +12,16 @@ using Money_CLI.Models.Enums;
 
 public class FileHandler : GenericController
 {
-    private static readonly string rootFolder = @"\Volumes\Stratis_SSD\PERSONAL\Money\";
-
     /// <summary>
-    /// Get the string file name for the current date.
+    /// Returns the string file name for the current date.
     /// </summary>
-    public static string CurrentFileName()
+    public static string CurrentFileName
     {
-        // Get necessary date information
-        int[] date = GetDate();
-        string monthFullName = DateTime.Now.ToString("MMMM");
+        get {
+            string monthFullName = DateTime.Now.ToString("MMMM");
 
-        return $"{date[1].ToString("00")}-{monthFullName}";
+            return $"{GetDate[1].ToString("00")}-{monthFullName}";
+        }
     }
 
     /// <summary>
@@ -33,9 +31,6 @@ public class FileHandler : GenericController
     public static string? GetFile(ChangeType changeType)
     {
         try {
-            // Get necessary date information
-            int[] date = GetDate();
-
             // Set the category folder
             string categoryFolder;
             switch (changeType) {
@@ -48,20 +43,20 @@ public class FileHandler : GenericController
             }
 
             // Create the folder, if it doesn't exist
-            string folderPath = @$"{rootFolder}{categoryFolder}/{date[2]}/".Replace("\\", "/");
+            string folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{GetDate[2]}/");
             if (!Directory.Exists(folderPath)) {
                 Directory.CreateDirectory(folderPath);
-                Console.WriteLine("Created folder: " + folderPath);
+                PrintSuccess($"Created folder '{folderPath}'.");
             }
 
             // Create the file, if it doesn't exist
-            string fullPath = @$"{folderPath}{CurrentFileName()}.md";
+            string fullPath = @$"{folderPath}{CurrentFileName}.md";
             if (!File.Exists(fullPath)) {
                 File.Create(fullPath).Close();
-                Console.WriteLine("Created file: " + fullPath);
+                PrintSuccess($"Created file '{fullPath}'.");
             }
 
-            Console.WriteLine("Your " + (changeType == ChangeType.Expense ? "expenses" : "income") + $" will be exported to: '{fullPath}'");
+            PrintSuccess("Your " + (changeType == ChangeType.Expense ? "expenses" : "income") + $" will be exported to '{fullPath}'.");
 
             return fullPath;
         } catch (Exception) {
@@ -70,18 +65,22 @@ public class FileHandler : GenericController
     }
 
     /// <summary>
-    /// Export all changes to the current file.
+    /// Exports all changes to the current file.
     /// </summary>
-    public static bool Export(ChangeType changeType)
+    public static bool Export(ChangeType changeType, int month = -1, int year = -1)
     {
         string? file = GetFile(changeType);
 
         if (file == null)
             return false;
 
+        if (month == -1)
+            month = GetDate[1];
+
+        if (year == -1)
+            year = GetDate[2];
+
         try {
-            int month = GetDate()[1];
-            int year = GetDate()[2];
             List<string> template;
             double total = 0;
 
@@ -94,7 +93,7 @@ public class FileHandler : GenericController
                     // Load the file template
                     template = FileTemplates.FileTemplate(
                             "Income",
-                            CurrentFileName(),
+                            CurrentFileName,
                             total
                         ).ToList();
 
@@ -110,7 +109,7 @@ public class FileHandler : GenericController
                     // Load the file template
                     template = FileTemplates.FileTemplate(
                             "Expenses",
-                            CurrentFileName(),
+                            CurrentFileName,
                             total
                         ).ToList();
 
