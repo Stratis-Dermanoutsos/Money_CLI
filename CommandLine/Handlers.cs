@@ -18,9 +18,27 @@ public class Handlers
         }
 
         if (SetDatabase != null) {
-            if (Directory.Exists(SetDatabase))
-                SystemVariables.DatabaseFolder = SetDatabase;
-            else
+            if (Directory.Exists(SetDatabase)) {
+                string oldPath = @$"{SystemVariables.DatabaseFolder}"; // We keep the old path in case we need to revert
+                string oldPathFull = @$"{oldPath}money.db";
+
+                if (File.Exists(oldPathFull)) {
+                    try {
+                        SystemVariables.DatabaseFolder = SetDatabase;
+
+                        string newPath = @$"{SystemVariables.DatabaseFolder}money.db";
+                        GenericController.PrintWarning($"The database will be moved to the new path...");
+
+                        File.Move(@$"{oldPath}money.db", newPath, true);
+                        GenericController.PrintSuccess("The database was moved successfully.");
+                    } catch (Exception) {
+                        GenericController.PrintWarning("The database could not be moved.\nReverting back to the old path...");
+                        SystemVariables.DatabaseFolder = oldPath;
+                    }
+                } else {
+                    GenericController.PrintError("The database does not exist.");
+                }
+            } else
                 GenericController.PrintError("Database folder does not exist.");
         }
 

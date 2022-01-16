@@ -81,7 +81,6 @@ public static class SystemVariables
                 File.WriteAllText(SystemVariablesFileName, json);
 
                 GenericController.PrintSuccess("Database folder has successfully been set.");
-                GenericController.PrintWarning($"For the tool to continue working, please move 'money.db' from '{oldValue}' to '{value}'.");
             } catch (Exception) {
                 GenericController.PrintError("Could not set database folder.");
             }
