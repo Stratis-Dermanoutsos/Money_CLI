@@ -26,11 +26,6 @@ public class ChangeBase
     [NotMapped]
     public DateOnly Date {
         get => new DateOnly(Year, Month, Day);
-        set {
-            Year = value.Year;
-            Month = value.Month;
-            Day = value.Day;
-        }
     }
 
     public string Comment { get; set; }
@@ -39,10 +34,7 @@ public class ChangeBase
     /// <summary>
     /// This constructor is required to create ChangeBase objects.
     /// </summary>
-    public ChangeBase(
-        string title,
-        double amount,
-        int year, int month, int day, string comment)
+    public ChangeBase(string title, double amount, int year, int month, int day, string comment)
     {
         Title = title;
         Amount = amount;
@@ -75,7 +67,7 @@ public class ChangeBase
     {
 
         Amount = 0;
-        DateOnly date = new DateOnly();
+        DateOnly date = DateOnly.FromDateTime(DateTime.Now);
         Year = date.Year;
         Month = date.Month;
         Day = date.Day;
@@ -102,7 +94,7 @@ public class ChangeBase
     {
         Title = string.Empty;
         Amount = 0;
-        DateOnly date = new DateOnly();
+        DateOnly date = DateOnly.FromDateTime(DateTime.Now);
         Year = date.Year;
         Month = date.Month;
         Day = date.Day;
