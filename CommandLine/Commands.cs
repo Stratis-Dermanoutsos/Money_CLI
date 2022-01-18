@@ -38,10 +38,17 @@ public class Commands
                 description: "Add an income or expense."
             );
 
-            // _add.Handler = CommandHandler.Create<string, string, string>(Handlers.ExecuteAdd);
+            _add.Handler = CommandHandler.Create<bool, bool, string, double, int, int, int, string>(Handlers.ExecuteAdd);
 
+            // Add our options
             _add.AddOption(Options.Expense);
             _add.AddOption(Options.Income);
+            _add.AddOption(Options.Title);
+            _add.AddOption(Options.Amount);
+            _add.AddOption(Options.Year);
+            _add.AddOption(Options.Month);
+            _add.AddOption(Options.Day);
+            _add.AddOption(Options.Comment);
 
             return _add;
         }

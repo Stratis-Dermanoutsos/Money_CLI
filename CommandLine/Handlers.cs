@@ -1,6 +1,7 @@
 namespace Money_CLI.CommandLine;
 
 using Money_CLI.Controllers;
+using Money_CLI.Models;
 using Money_CLI.Models.Enums;
 
 public class Handlers
@@ -43,6 +44,59 @@ public class Handlers
         }
 
         // TODO: Handle SetCurrency.
+    }
+
+    public static void ExecuteAdd(
+        bool Expense,
+        bool Income,
+        string Title,
+        double Amount,
+        int Year,
+        int Month,
+        int Day,
+        string Comment
+    ) {
+        ChangeBase change = new ChangeBase();
+
+        // Handle all properties
+        if (Title != null)
+            change.Title = Title;
+
+        if (Amount != 0)
+            change.Amount = Amount;
+
+        if (Year != 0)
+            change.Year = Year;
+
+        if (Month != 0)
+            change.Month = Month;
+
+        if (Day != 0)
+            change.Day = Day;
+
+        if (Comment != null)
+            change.Comment = Comment;
+
+        /* Add the change to the database
+        ! Only 1 change type can be set at a time. */
+        if (Expense) {
+            Expense expense = new Expense(change);
+            try {
+                MoneyHandler.AddExpense(expense);
+                GenericController.PrintSuccess("Expense added successfully.");
+            } catch (Exception) {
+                GenericController.PrintError("Could not add expense.");
+            }
+        } else if (Income) {
+            Income income = new Income(change);
+            try {
+                MoneyHandler.AddIncome(income);
+                GenericController.PrintSuccess("Income added successfully.");
+            } catch (Exception) {
+                GenericController.PrintError("Could not add income.");
+            }
+        } else
+            GenericController.PrintError("You must specify whether the change is an expense or income.");
     }
 
     public static void ExecuteExport(
