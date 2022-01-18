@@ -5,6 +5,10 @@ using System.CommandLine.NamingConventionBinder;
 
 public class Commands
 {
+    /// <summary>
+    /// The root command.
+    /// It is responsible for calling all the other commands and handling all arguments.
+    /// </summary>
     public static RootCommand Root
     {
         get
@@ -29,6 +33,9 @@ public class Commands
         }
     }
 
+    /// <summary>
+    /// Adds a new expense/income.
+    /// </summary>
     public static Command Add
     { 
         get
@@ -55,7 +62,7 @@ public class Commands
     }
 
     /// <summary>
-    /// Export income or expenses based on argument.
+    /// Exports income or expenses based on argument.
     /// </summary>
     public static Command Export
     {
