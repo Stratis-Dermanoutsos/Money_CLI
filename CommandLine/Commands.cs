@@ -5,6 +5,10 @@ using System.CommandLine.NamingConventionBinder;
 
 public class Commands
 {
+    /// <summary>
+    /// The root command.
+    /// It is responsible for calling all the other commands and handling all arguments.
+    /// </summary>
     public static RootCommand Root
     {
         get
@@ -29,6 +33,9 @@ public class Commands
         }
     }
 
+    /// <summary>
+    /// Adds a new expense/income.
+    /// </summary>
     public static Command Add
     { 
         get
@@ -38,17 +45,24 @@ public class Commands
                 description: "Add an income or expense."
             );
 
-            // _add.Handler = CommandHandler.Create<string, string, string>(Handlers.ExecuteAdd);
+            _add.Handler = CommandHandler.Create<bool, bool, string, double, int, int, int, string>(Handlers.ExecuteAdd);
 
+            // Add our options
             _add.AddOption(Options.Expense);
             _add.AddOption(Options.Income);
+            _add.AddOption(Options.Title);
+            _add.AddOption(Options.Amount);
+            _add.AddOption(Options.Year);
+            _add.AddOption(Options.Month);
+            _add.AddOption(Options.Day);
+            _add.AddOption(Options.Comment);
 
             return _add;
         }
     }
 
     /// <summary>
-    /// Export income or expenses based on argument.
+    /// Exports income or expenses based on argument.
     /// </summary>
     public static Command Export
     {

@@ -61,4 +61,30 @@ public static class MoneyHandler
         }
     }
     #endregion
+
+    #region Add new income/expense
+    /// <summary>
+    /// Adds a new expense to the database.
+    /// </summary>
+    public static void AddExpense(Expense expense)
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            context.Expenses.Add(expense);
+            context.SaveChanges();
+        }
+    }
+
+    /// <summary>
+    /// Adds a new income to the database.
+    /// </summary>
+    public static void AddIncome(Income income)
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            context.Incomes.Add(income);
+            context.SaveChanges();
+        }
+    }
+    #endregion
 }
