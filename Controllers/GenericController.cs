@@ -19,6 +19,7 @@ public class GenericController
         };
     }
 
+    #region Logging
     /// <summary>
     /// Prints a message to the console, in error format.
     /// </summary>
@@ -42,6 +43,7 @@ public class GenericController
     {
         Console.WriteLine(message, Console.ForegroundColor = ConsoleColor.Yellow);
     }
+    #endregion
 
     /// <summary>
     /// Ensures a directory contains correct Separator characters.

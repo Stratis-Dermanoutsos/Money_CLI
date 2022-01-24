@@ -12,6 +12,7 @@ using Money_CLI.Models.Enums;
 
 public class FileHandler : GenericController
 {
+    #region FileName based on month
     /// <summary>
     /// Returns the string file name for the current date.
     /// </summary>
@@ -23,6 +24,8 @@ public class FileHandler : GenericController
             return $"{GetDate[1].ToString("00")}-{monthFullName}";
         }
     }
+
+    #endregion
 
     /// <summary>
     /// Return the full path to the current file.
