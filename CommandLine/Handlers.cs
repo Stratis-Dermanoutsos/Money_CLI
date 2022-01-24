@@ -101,17 +101,19 @@ public class Handlers
 
     public static void ExecuteExport(
         bool Expense,
-        bool Income
+        bool Income,
+        int Month,
+        int Year
     ) {
         if (Expense) {
-            if (!FileHandler.Export(ChangeType.Expense))
+            if (!FileHandler.Export(ChangeType.Expense, Month, Year))
                 GenericController.PrintError("Could not export the expenses.");
 
             return;
         }
 
         if (Income) {
-            if (!FileHandler.Export(ChangeType.Income))
+            if (!FileHandler.Export(ChangeType.Income, Month, Year))
                 GenericController.PrintError("Could not export the income.");
 
             return;
