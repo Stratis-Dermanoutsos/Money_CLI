@@ -62,4 +62,22 @@ public class GenericController
 
         return directory.Replace("\\", sepChar);
     }
+
+    #region Month and Year validations
+    /// <summary>
+    /// Validates the value of the month from the input.
+    /// </summary>
+    public static bool MonthIsValid(int month)
+    {
+        return 1 <= month && month <= 12;
+    }
+
+    /// <summary>
+    /// Validates the value of the year from the input.
+    /// </summary>
+    public static bool YearIsValid(int year)
+    {
+        return 1 <= year && year <= DateTime.Now.Year;
+    }
+    #endregion
 }
