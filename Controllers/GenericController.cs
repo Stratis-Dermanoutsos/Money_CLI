@@ -21,6 +21,14 @@ public class GenericController
 
     #region Logging
     /// <summary>
+    /// Prints a message to the console, in default format.
+    /// </summary>
+    public static void PrintDefault(string message)
+    {
+        Console.WriteLine(message, Console.ForegroundColor = ConsoleColor.White);
+    }
+
+    /// <summary>
     /// Prints a message to the console, in error format.
     /// </summary>
     public static void PrintError(string message)
