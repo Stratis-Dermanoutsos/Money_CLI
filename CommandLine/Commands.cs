@@ -73,10 +73,12 @@ public class Commands
                 description: "Export income or expenses based on argument."
             );
 
-            _export.Handler = CommandHandler.Create<bool, bool>(Handlers.ExecuteExport);
+            _export.Handler = CommandHandler.Create<bool, bool, int, int>(Handlers.ExecuteExport);
 
             _export.AddOption(Options.Expense);
             _export.AddOption(Options.Income);
+            _export.AddOption(Options.Month);
+            _export.AddOption(Options.Year);
 
             return _export;
         }
