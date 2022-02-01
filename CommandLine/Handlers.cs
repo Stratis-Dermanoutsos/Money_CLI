@@ -121,4 +121,69 @@ public class Handlers
 
         GenericController.PrintError("Provide a valid option to export.");
     }
+
+    public static void ExecuteList(
+        bool Expense,
+        bool Income,
+        int Month,
+        int Year
+    ) {
+        if (Expense) {
+            try {
+                List<Expense> expenses;
+
+                // Only get the expenses that are specified by the user, or all.
+                if (GenericController.MonthIsValid(Month) && GenericController.YearIsValid(Year))
+                    expenses = MoneyHandler.AllMonthlyExpensesById(Month, Year);
+                else if (GenericController.MonthIsValid(Month))
+                    expenses = MoneyHandler.AllExpensesOnMonth(Month);
+                else if (GenericController.YearIsValid(Year))
+                    expenses = MoneyHandler.AllExpensesOnYear(Year);
+                else
+                    expenses = MoneyHandler.AllExpenses();
+
+                if (expenses.Count == 0) {
+                    GenericController.PrintWarning("There are no expenses to list.");
+                    return;
+                }
+
+                foreach (Expense expense in expenses)
+                    GenericController.PrintDefault(expense.ToString("list"));
+            } catch (Exception) {
+                GenericController.PrintError("Could not list the expenses.");
+            }
+
+            return;
+        }
+
+        if (Income) {
+            try {
+                List<Income> incomes;
+
+                // Only get the income that are specified by the user, or all.
+                if (GenericController.MonthIsValid(Month) && GenericController.YearIsValid(Year))
+                    incomes = MoneyHandler.AllMonthlyIncomeById(Month, Year);
+                else if (GenericController.MonthIsValid(Month))
+                    incomes = MoneyHandler.AllIncomeOnMonth(Month);
+                else if (GenericController.YearIsValid(Year))
+                    incomes = MoneyHandler.AllIncomeOnYear(Year);
+                else
+                    incomes = MoneyHandler.AllIncome();
+
+                if (incomes.Count == 0) {
+                    GenericController.PrintWarning("There is no income to list.");
+                    return;
+                }
+
+                foreach (Income income in incomes)
+                    GenericController.PrintDefault(income.ToString("list"));
+            } catch (Exception) {
+                GenericController.PrintError("Could not list the income.");
+            }
+
+            return;
+        }
+
+        GenericController.PrintError("Provide a valid option to list.");
+    }
 }
