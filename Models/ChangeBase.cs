@@ -110,4 +110,15 @@ public class ChangeBase
     {
         return $"| {Title} | {Amount.ToString("C", new CultureInfo("el-GR"))} | {Date} | {Comment} |";
     }
+
+    /// <summary>
+    /// Returns a string representation of the object.
+    /// </summary>
+    public string ToString(string format)
+    {
+        if (format != "table")
+            return $"{Id}:\t{Date} - {Title} - {Amount.ToString("C", new CultureInfo("el-GR"))}";
+
+        return this.ToString();
+    }
 }

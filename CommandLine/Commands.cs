@@ -22,6 +22,7 @@ public class Commands
             // Add the commands
             _root.AddCommand(Add);
             _root.AddCommand(Export);
+            _root.AddCommand(List);
             _root.AddCommand(Remove);
 
             // Add our options
@@ -81,6 +82,29 @@ public class Commands
             _export.AddOption(Options.Year);
 
             return _export;
+        }
+    }
+
+    /// <summary>
+    /// Lists income or expenses based on argument.
+    /// </summary>
+    public static Command List
+    {
+        get
+        {
+            Command _list = new Command(
+                "list",
+                description: "List all or specific income or expenses based on argument."
+            );
+
+            _list.Handler = CommandHandler.Create<bool, bool, int, int>(Handlers.ExecuteList);
+
+            _list.AddOption(Options.Expense);
+            _list.AddOption(Options.Income);
+            _list.AddOption(Options.Month);
+            _list.AddOption(Options.Year);
+
+            return _list;
         }
     }
 

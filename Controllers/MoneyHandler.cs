@@ -48,6 +48,20 @@ public static class MoneyHandler
     }
 
     /// <summary>
+    /// Returns an List containing all monthly expenses ordered by Id.
+    /// </summary>
+    public static List<Expense> AllMonthlyExpensesById(int month, int year)
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            return context.Expenses
+                            .Where(i => i.Month == month && i.Year == year)
+                            .OrderBy(i => i.Id)
+                            .ToList();
+        }
+    }
+
+    /// <summary>
     /// Returns an List containing all monthly income.
     /// </summary>
     public static List<Income> AllMonthlyIncome(int month, int year)
@@ -58,6 +72,80 @@ public static class MoneyHandler
                             .Where(i => i.Month == month && i.Year == year)
                             .OrderBy(i => i.Day)
                             .ThenBy(i => i.Title).ToList();
+        }
+    }
+
+    /// <summary>
+    /// Returns an List containing all monthly income ordered by Id.
+    /// </summary>
+    public static List<Income> AllMonthlyIncomeById(int month, int year)
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            return context.Incomes
+                            .Where(i => i.Month == month && i.Year == year)
+                            .OrderBy(i => i.Id)
+                            .ToList();
+        }
+    }
+    #endregion
+
+    #region All income/expenses based on month
+    /// <summary>
+    /// Returns all expenses for specified month.
+    /// </summary>
+    public static List<Expense> AllExpensesOnMonth(int month)
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            return context.Expenses
+                            .Where(i => i.Month == month)
+                            .OrderBy(i => i.Id)
+                            .ToList();
+        }
+    }
+
+    /// <summary>
+    /// Returns all income for specified month.
+    /// </summary>
+    public static List<Income> AllIncomeOnMonth(int month)
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            return context.Incomes
+                            .Where(i => i.Month == month)
+                            .OrderBy(i => i.Id)
+                            .ToList();
+        }
+    }
+    #endregion
+
+    #region All income/expenses based on year
+    /// <summary>
+    /// Returns all expenses for specified year.
+    /// </summary>
+    public static List<Expense> AllExpensesOnYear(int year)
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            return context.Expenses
+                            .Where(i => i.Year == year)
+                            .OrderBy(i => i.Id)
+                            .ToList();
+        }
+    }
+
+    /// <summary>
+    /// Returns all income for specified year.
+    /// </summary>
+    public static List<Income> AllIncomeOnYear(int year)
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            return context.Incomes
+                            .Where(i => i.Year == year)
+                            .OrderBy(i => i.Id)
+                            .ToList();
         }
     }
     #endregion
@@ -84,6 +172,34 @@ public static class MoneyHandler
         {
             context.Incomes.Add(income);
             context.SaveChanges();
+        }
+    }
+    #endregion
+
+    #region  Return all income/expenses.
+    /// <summary>
+    /// Returns all expenses.
+    /// </summary>
+    public static List<Expense> AllExpenses()
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            return context.Expenses
+                            .OrderBy(i => i.Id)
+                            .ToList();
+        }
+    }
+
+    /// <summary>
+    /// Returns all income.
+    /// </summary>
+    public static List<Income> AllIncome()
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            return context.Incomes
+                            .OrderBy(i => i.Id)
+                            .ToList();
         }
     }
     #endregion
