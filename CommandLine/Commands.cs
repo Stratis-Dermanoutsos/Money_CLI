@@ -117,10 +117,11 @@ public class Commands
                 description: "Remove an income or expense."
             );
 
-            // _remove.Handler = CommandHandler.Create<string, string, string>(Handlers.ExecuteRemove);
+            _remove.Handler = CommandHandler.Create<bool, bool, int>(Handlers.ExecuteRemove);
 
             _remove.AddOption(Options.Expense);
             _remove.AddOption(Options.Income);
+            _remove.AddOption(Options.Id);
 
             return _remove;
         }
