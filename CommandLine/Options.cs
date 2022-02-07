@@ -99,4 +99,14 @@ public class Options
         description: "Set custom comment for the expense/income."
     );
     #endregion
+
+    #region Search options
+    /// <summary>
+    /// Sets the item Id for the item to search for.
+    /// </summary>
+    public static Option<int> Id = new Option<int>(
+        aliases: new string[] { "--id" },
+        description: "Set the id of the item to delete. Can be acquired by using the list command."
+    );
+    #endregion
 }

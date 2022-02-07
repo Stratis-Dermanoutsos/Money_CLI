@@ -203,4 +203,34 @@ public static class MoneyHandler
         }
     }
     #endregion
+
+    #region Remove income/expense
+    /// <summary>
+    /// Removes an expense from the database.
+    /// </summary>
+    public static void RemoveExpense(int Id)
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            Expense expense = context.Expenses.Single(i => i.Id == Id);
+
+            context.Expenses.Remove(expense);
+            context.SaveChanges();
+        }
+    }
+
+    /// <summary>
+    /// Removes an income from the database.
+    /// </summary>
+    public static void RemoveIncome(int Id)
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            Income income = context.Incomes.Single(i => i.Id == Id);
+
+            context.Incomes.Remove(income);
+            context.SaveChanges();
+        }
+    }
+    #endregion
 }

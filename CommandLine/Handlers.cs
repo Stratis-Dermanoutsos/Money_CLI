@@ -186,4 +186,39 @@ public class Handlers
 
         GenericController.PrintError("Provide a valid option to list.");
     }
+
+    public static void ExecuteRemove(
+        bool Expense,
+        bool Income,
+        int Id
+    ) {
+        if (Id == 0) {
+            GenericController.PrintError("Provide a valid ID.");
+            return;
+        }
+
+        if (Expense) {
+            try {
+                MoneyHandler.RemoveExpense(Id);
+                GenericController.PrintSuccess("Expense removed successfully.");
+            } catch (Exception) {
+                GenericController.PrintError("Could not remove the expense.");
+            }
+
+            return;
+        }
+
+        if (Income) {
+            try {
+                MoneyHandler.RemoveIncome(Id);
+                GenericController.PrintSuccess("Income removed successfully.");
+            } catch (Exception) {
+                GenericController.PrintError("Could not remove the income.");
+            }
+
+            return;
+        }
+
+        GenericController.PrintError("Provide a valid option to remove.");
+    }
 }
