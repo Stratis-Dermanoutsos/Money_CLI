@@ -28,7 +28,8 @@ public class Options
     /// </summary>
     public static Option<string> SetCurrency = new Option<string>(
         aliases: new string[] { "--set-currency" },
-        description: "Set the currency to export."
+        description: "Set the currency to export.\n" +
+                    "Supported currencies: EUR, GBP, JPY, USD."
     );
     #endregion
 
