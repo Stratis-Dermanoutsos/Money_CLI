@@ -8,7 +8,7 @@ public static class FileTemplates
         return new string[] {
             $"# {changeType} for {fileName}",
             string.Empty,
-            $"## Total: {total.ToString("C", new CultureInfo("el-GR"))}",
+            $"## Total: {total.ToString("C", new CultureInfo(SystemVariables.Currency))}",
             string.Empty,
             "| Title | Amount | Date | Comment |",
             "| --- | --: | --- | --- |",

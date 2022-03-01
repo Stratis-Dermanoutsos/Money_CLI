@@ -108,7 +108,7 @@ public class ChangeBase
     /// </summary>
     public override string ToString()
     {
-        return $"| {Title} | {Amount.ToString("C", new CultureInfo("el-GR"))} | {Date} | {Comment} |";
+        return $"| {Title} | {Amount.ToString("C", new CultureInfo(SystemVariables.Currency))} | {Date} | {Comment} |";
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public class ChangeBase
     public string ToString(string format)
     {
         if (format != "table")
-            return $"{Id}:\t{Date} - {Title} - {Amount.ToString("C", new CultureInfo("el-GR"))}";
+            return $"{Id}:\t{Date} - {Title} - {Amount.ToString("C", new CultureInfo(SystemVariables.Currency))}";
 
         return this.ToString();
     }

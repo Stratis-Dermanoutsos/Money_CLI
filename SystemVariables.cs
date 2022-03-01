@@ -92,11 +92,28 @@ public static class SystemVariables
     /// </summary>
     public static string Currency {
         get {
-            return Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            try {
+                return SystemVariablesJSON["CURRENCY"];
+            } catch (Exception) {
+                return string.Empty;
+            }
         }
 
         set {
-            
+            try {
+                Dictionary<string, string>? _data = SystemVariablesJSON;
+
+                string oldValue = _data["CURRENCY"];
+
+                _data["CURRENCY"] = value;
+
+                string json = JsonSerializer.Serialize(_data);
+                File.WriteAllText(SystemVariablesFileName, json);
+
+                GenericController.PrintSuccess("Currency has successfully been set.");
+            } catch (Exception) {
+                GenericController.PrintError("Could not set currency.");
+            }
         }
     }
 
@@ -113,7 +130,7 @@ public static class SystemVariables
             Dictionary<string, string> _data = new Dictionary<string, string>();
             _data.Add("EXPORT_FOLDER", _AppDomain);
             _data.Add("DATABASE_FOLDER", _AppDomain);
-            _data.Add("CURRENCY", "USD");
+            _data.Add("CURRENCY", "en-US");
 
             string json = JsonSerializer.Serialize(_data);
             File.WriteAllText(SystemVariablesFileName, json);

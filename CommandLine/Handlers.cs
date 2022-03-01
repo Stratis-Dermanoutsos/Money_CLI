@@ -43,7 +43,25 @@ public class Handlers
                 GenericController.PrintError("Database folder does not exist.");
         }
 
-        // TODO: Handle SetCurrency.
+        if (SetCurrency != null) {
+            switch (SetCurrency) {
+                case "EUR": // Euro
+                    SystemVariables.Currency = "fr-FR";
+                    break;
+                case "GBP": // British Pound
+                    SystemVariables.Currency = "en-GB";
+                    break;
+                case "JPY": // Japanese Yen
+                    SystemVariables.Currency = "ja-JP";
+                    break;
+                case "USD": // US Dollar
+                    SystemVariables.Currency = "en-US";
+                    break;
+                default:
+                    GenericController.PrintError("Currency is not supported.");
+                    break;
+            }
+        }
     }
 
     public static void ExecuteAdd(
