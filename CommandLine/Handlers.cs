@@ -74,26 +74,19 @@ public class Handlers
         int Day,
         string Comment
     ) {
-        ChangeBase change = new ChangeBase();
-
-        // Handle all properties
-        if (Title != null)
-            change.Title = Title;
-
-        if (Amount != 0)
-            change.Amount = Amount;
+        ChangeBase change = new ChangeBase()
+                            .SetTitle(Title ?? string.Empty)
+                            .SetAmount(Amount)
+                            .SetComment(Comment ?? string.Empty);
 
         if (Year != 0)
-            change.Year = Year;
+            change.SetYear(Year);
 
         if (Month != 0)
-            change.Month = Month;
+            change.SetMonth(Month);
 
         if (Day != 0)
-            change.Day = Day;
-
-        if (Comment != null)
-            change.Comment = Comment;
+            change.SetDay(Day);
 
         /* Add the change to the database
         ! Only 1 change type can be set at a time. */

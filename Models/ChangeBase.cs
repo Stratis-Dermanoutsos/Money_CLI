@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
-using Money_CLI.Models.Enums;
 
 public class ChangeBase
 {
@@ -12,96 +11,25 @@ public class ChangeBase
     public int Id { get; set; }
 
     [Required]
-    public string Title { get; set; }
+    public string Title { get; set; } = "New Change";
 
     [Required]
-    public double Amount { get; set; }
+    public double Amount { get; set; } = 0;
 
-    public int Day { get; set; }
+    public int Day { get; set; } = DateTime.Today.Day;
 
-    public int Month { get; set; }
+    public int Month { get; set; } = DateTime.Today.Month;
 
-    public int Year { get; set; }
+    public int Year { get; set; } = DateTime.Today.Year;
+
+    public string Comment { get; set; } = string.Empty;
 
     [NotMapped]
     public DateOnly Date {
         get => new DateOnly(Year, Month, Day);
     }
 
-    public string Comment { get; set; }
-
-    #region Constructors
-    /// <summary>
-    /// This constructor is required to create ChangeBase objects.
-    /// </summary>
-    public ChangeBase(string title, double amount, int year, int month, int day, string comment)
-    {
-        Title = title;
-        Amount = amount;
-        Year = year;
-        Month = month;
-        Day = day;
-        Comment = comment;
-    }
-
-    /// <summary>
-    /// This constructor is required to create ChangeBase objects from a string.
-    /// </summary>
-    public ChangeBase(string change)
-    {
-        string[] parts = change.Split('|', StringSplitOptions.TrimEntries);
-        int[] dateParts = Array.ConvertAll(parts[3].Split('/'), int.Parse);
-        Day = dateParts[0];
-        Month = dateParts[1];
-        Year = dateParts[2];
-
-        Title = parts[1];
-        Amount = double.Parse(parts[2]);
-        Comment = parts[4];
-    }
-
-    /// <summary>
-    /// Constructor to return another object of the same type.
-    /// </summary>
-    public ChangeBase(ChangeType changeType)
-    {
-
-        Amount = 0;
-        DateOnly date = DateOnly.FromDateTime(DateTime.Now);
-        Year = date.Year;
-        Month = date.Month;
-        Day = date.Day;
-
-        Comment = string.Empty;
-
-        switch (changeType)
-        {
-            case ChangeType.Income:
-                Title = "New Income";
-                new Income(Title, Amount, Year, Month, Day, Comment);
-                break;
-            default:
-                Title = "New Expense";
-                new Expense(Title, Amount, Year, Month, Day, Comment);
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Empty constructor.
-    /// </summary>
-    public ChangeBase()
-    {
-        Title = string.Empty;
-        Amount = 0;
-        DateOnly date = DateOnly.FromDateTime(DateTime.Now);
-        Year = date.Year;
-        Month = date.Month;
-        Day = date.Day;
-        Comment = string.Empty;
-    }
-    #endregion
-
+    #region ToString overrides
     /// <summary>
     /// Returns a string representation of the object.
     /// Format: | Title | Amount € | Date | Comment |
@@ -121,4 +49,43 @@ public class ChangeBase
 
         return this.ToString();
     }
+    #endregion
+
+    #region Building methods
+    public ChangeBase SetTitle(string Title)
+    {
+        this.Title = Title;
+        return this;
+    }
+
+    public ChangeBase SetAmount(double Amount)
+    {
+        this.Amount = Amount;
+        return this;
+    }
+
+    public ChangeBase SetDay(int Day)
+    {
+        this.Day = Day;
+        return this;
+    }
+
+    public ChangeBase SetMonth(int Month)
+    {
+        this.Month = Month;
+        return this;
+    }
+
+    public ChangeBase SetYear(int Year)
+    {
+        this.Year = Year;
+        return this;
+    }
+
+    public ChangeBase SetComment(string Comment)
+    {
+        this.Comment = Comment;
+        return this;
+    }
+    #endregion
 }
