@@ -2,8 +2,10 @@
 
   <PropertyGroup>
     <PackageId>Money_CLI</PackageId>
-    <Version>1.0.0</Version>
-    <Authors>Stratis Dermanoutsos</Authors>
+    <Version>1.0.0-alpha</Version>
+    <Authors>Stratis-Dermanoutsos</Authors>
+    <PackageDescription>Open source CLI tool for one to note their money usage.</PackageDescription>
+    <RepositoryUrl>https://github.com/Stratis-Dermanoutsos/Money_CLI</RepositoryUrl>
 
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>

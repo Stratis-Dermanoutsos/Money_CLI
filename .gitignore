@@ -351,3 +351,4 @@ MigrationBackup/
 
 # My additions
 .vscode/
+nuget.config
