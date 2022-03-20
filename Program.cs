@@ -16,7 +16,7 @@ class Program
     public static async Task<int> Main(params string[] args)
     {
         // First, set the SystemVariables, in case it does not exist.
-        SystemVariables.Create();
+        SystemVariables.EnsureCreated();
 
         return await Commands.Root.InvokeAsync(args);
     }
