@@ -24,7 +24,7 @@ It is a private, lightweight and easy to use solution.
 
 ## Usage
 
-- Install from nuget
+- Install from [nuget](https://www.nuget.org/packages/Money_CLI/)
 
   ```bash
   dotnet tool install --global Money_CLI
