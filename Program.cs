@@ -18,6 +18,11 @@ class Program
         // First, set the SystemVariables, in case it does not exist.
         SystemVariables.EnsureCreated();
 
+        // Then, ensure that there is a database to work with.
+        using (AppDbContext context = new AppDbContext()) {
+            context.Database.EnsureCreated();
+        }
+
         return await Commands.Root.InvokeAsync(args);
     }
 }
