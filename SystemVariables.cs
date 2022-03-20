@@ -118,11 +118,11 @@ public static class SystemVariables
     }
 
     /// <summary>
-    /// Creates the system variables file.
+    /// Ensures that the file for the system variables exists.
     /// </summary>
-    public static void Create() {
+    public static bool EnsureCreated() {
         if (File.Exists(SystemVariablesFileName))
-            return;
+            return true;
 
         try {
             File.Create(SystemVariablesFileName).Close();
@@ -136,8 +136,12 @@ public static class SystemVariables
             File.WriteAllText(SystemVariablesFileName, json);
 
             GenericController.PrintSuccess("System variables file has successfully been created.");
+
+            return true;
         } catch (Exception) {
             GenericController.PrintError("Could not create system variables file.");
+
+            return false;
         }
     }
 }
