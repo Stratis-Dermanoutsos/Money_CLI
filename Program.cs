@@ -1,5 +1,6 @@
 ﻿namespace Money_CLI;
 
+using Serilog;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
@@ -15,6 +16,11 @@ class Program
     /// </summary>
     public static async Task<int> Main(params string[] args)
     {
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console()
+            .CreateLogger();
+
         // First, set the SystemVariables, in case it does not exist.
         SystemVariables.EnsureCreated();
 
