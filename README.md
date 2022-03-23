@@ -29,13 +29,13 @@ It is a private, lightweight and easy to use solution.
    - from [nuget](https://www.nuget.org/packages/Money_CLI/)
 
      ```bash
-     dotnet tool install --global Money_CLI --version 1.0.0-alpha
+     dotnet tool install --global Money_CLI --version 1.0.1-alpha
      ```
 
    - from [github](https://github.com/Stratis-Dermanoutsos/Money_CLI)
 
      ```bash
-     dotnet add PROJECT package Money_CLI --version 1.0.0-alpha
+     dotnet add PROJECT package Money_CLI --version 1.0.1-alpha
      ```
 
 2. Run the help command for more information
