@@ -19,40 +19,6 @@ public class GenericController
         };
     }
 
-    #region Logging
-    /// <summary>
-    /// Prints a message to the console, in default format.
-    /// </summary>
-    public static void PrintDefault(string message)
-    {
-        Console.WriteLine(message, Console.ForegroundColor = ConsoleColor.White);
-    }
-
-    /// <summary>
-    /// Prints a message to the console, in error format.
-    /// </summary>
-    public static void PrintError(string message)
-    {
-        Console.WriteLine(message, Console.ForegroundColor = ConsoleColor.Red);
-    }
-
-    /// <summary>
-    /// Prints a message to the console, in success format.
-    /// </summary>
-    public static void PrintSuccess(string message)
-    {
-        Console.WriteLine(message, Console.ForegroundColor = ConsoleColor.Green);
-    }
-
-    /// <summary>
-    /// Prints a message to the console, in warning format.
-    /// </summary>
-    public static void PrintWarning(string message)
-    {
-        Console.WriteLine(message, Console.ForegroundColor = ConsoleColor.Yellow);
-    }
-    #endregion
-
     /// <summary>
     /// Ensures a directory contains correct Separator characters.
     /// For better understanding, go to https://docs.microsoft.com/en-us/dotnet/api/system.io.path.directoryseparatorchar

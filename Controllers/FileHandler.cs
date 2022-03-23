@@ -1,5 +1,6 @@
 namespace Money_CLI.Controllers;
 
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -61,7 +62,7 @@ public class FileHandler : GenericController
             string folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{chosenYear}/");
             if (!Directory.Exists(folderPath)) {
                 Directory.CreateDirectory(folderPath);
-                PrintSuccess($"Created folder '{folderPath}'.");
+                Log.Information("Created folder {folderPath}", folderPath);
             }
 
             // Select the month from the input, only if it's valid
@@ -71,10 +72,10 @@ public class FileHandler : GenericController
             string fullPath = @$"{folderPath}{fileName}.md";
             if (!File.Exists(fullPath)) {
                 File.Create(fullPath).Close();
-                PrintSuccess($"Created file '{fullPath}'.");
+                Log.Information("Created file {fullPath}", fullPath);
             }
 
-            PrintSuccess("Your " + (changeType == ChangeType.Expense ? "expenses" : "income") + $" will be exported to '{fullPath}'.");
+            Log.Information("Your {changeType} will be exported to {fullPath}", (changeType == ChangeType.Expense ? "expenses" : "income"), fullPath);
 
             return fullPath;
         } catch (Exception) {

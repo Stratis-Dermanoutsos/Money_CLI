@@ -3,6 +3,7 @@ namespace Money_CLI.CommandLine;
 using Money_CLI.Controllers;
 using Money_CLI.Models;
 using Money_CLI.Models.Enums;
+using Serilog;
 
 public class Handlers
 {
@@ -15,7 +16,7 @@ public class Handlers
             if (Directory.Exists(SetExport))
                 SystemVariables.ExportFolder = SetExport;
             else
-                GenericController.PrintError("Export folder does not exist.");
+                Log.Error("Export folder does not exist.");
         }
 
         if (SetDatabase != null) {
@@ -28,19 +29,19 @@ public class Handlers
                         SystemVariables.DatabaseFolder = SetDatabase;
 
                         string newPath = @$"{SystemVariables.DatabaseFolder}money.db";
-                        GenericController.PrintWarning($"The database will be moved to the new path...");
+                        Log.Warning("The database will be moved to the new path...");
 
                         File.Move(@$"{oldPath}money.db", newPath, true);
-                        GenericController.PrintSuccess("The database was moved successfully.");
+                        Log.Information("The database was moved successfully.");
                     } catch (Exception) {
-                        GenericController.PrintWarning("The database could not be moved.\nReverting back to the old path...");
+                        Log.Warning("The database could not be moved.\nReverting back to the old path...");
                         SystemVariables.DatabaseFolder = oldPath;
                     }
                 } else {
-                    GenericController.PrintError("The database does not exist.");
+                    Log.Error("The database does not exist.");
                 }
             } else
-                GenericController.PrintError("Database folder does not exist.");
+                Log.Error("Database folder does not exist.");
         }
 
         if (SetCurrency != null) {
@@ -58,7 +59,7 @@ public class Handlers
                     SystemVariables.Currency = "en-US";
                     break;
                 default:
-                    GenericController.PrintError("Currency is not supported.");
+                    Log.Error("Currency is not supported.");
                     break;
             }
         }
@@ -94,20 +95,20 @@ public class Handlers
             Expense expense = new Expense(change);
             try {
                 MoneyHandler.AddExpense(expense);
-                GenericController.PrintSuccess("Expense added successfully.");
+                Log.Information("Expense added successfully.");
             } catch (Exception) {
-                GenericController.PrintError("Could not add expense.");
+                Log.Error("Could not add expense.");
             }
         } else if (Income) {
             Income income = new Income(change);
             try {
                 MoneyHandler.AddIncome(income);
-                GenericController.PrintSuccess("Income added successfully.");
+                Log.Information("Income added successfully.");
             } catch (Exception) {
-                GenericController.PrintError("Could not add income.");
+                Log.Error("Could not add income.");
             }
         } else
-            GenericController.PrintError("You must specify whether the change is an expense or income.");
+            Log.Error("You must specify whether the change is an expense or income.");
     }
 
     public static void ExecuteExport(
@@ -118,19 +119,19 @@ public class Handlers
     ) {
         if (Expense) {
             if (!FileHandler.Export(ChangeType.Expense, Month, Year))
-                GenericController.PrintError("Could not export the expenses.");
+                Log.Error("Could not export the expenses.");
 
             return;
         }
 
         if (Income) {
             if (!FileHandler.Export(ChangeType.Income, Month, Year))
-                GenericController.PrintError("Could not export the income.");
+                Log.Error("Could not export the income.");
 
             return;
         }
 
-        GenericController.PrintError("Provide a valid option to export.");
+        Log.Error("Provide a valid option to export.");
     }
 
     public static void ExecuteList(
@@ -154,14 +155,14 @@ public class Handlers
                     expenses = MoneyHandler.AllExpenses();
 
                 if (expenses.Count == 0) {
-                    GenericController.PrintWarning("There are no expenses to list.");
+                    Log.Warning("There are no expenses to list.");
                     return;
                 }
 
                 foreach (Expense expense in expenses)
-                    GenericController.PrintDefault(expense.ToString("list"));
+                    Log.Information(expense.ToString("list"));
             } catch (Exception) {
-                GenericController.PrintError("Could not list the expenses.");
+                Log.Error("Could not list the expenses.");
             }
 
             return;
@@ -182,20 +183,20 @@ public class Handlers
                     incomes = MoneyHandler.AllIncome();
 
                 if (incomes.Count == 0) {
-                    GenericController.PrintWarning("There is no income to list.");
+                    Log.Warning("There is no income to list.");
                     return;
                 }
 
                 foreach (Income income in incomes)
-                    GenericController.PrintDefault(income.ToString("list"));
+                    Log.Information(income.ToString("list"));
             } catch (Exception) {
-                GenericController.PrintError("Could not list the income.");
+                Log.Error("Could not list the income.");
             }
 
             return;
         }
 
-        GenericController.PrintError("Provide a valid option to list.");
+        Log.Error("Provide a valid option to list.");
     }
 
     public static void ExecuteRemove(
@@ -204,16 +205,16 @@ public class Handlers
         int Id
     ) {
         if (Id == 0) {
-            GenericController.PrintError("Provide a valid ID.");
+            Log.Error("Provide a valid ID.");
             return;
         }
 
         if (Expense) {
             try {
                 MoneyHandler.RemoveExpense(Id);
-                GenericController.PrintSuccess("Expense removed successfully.");
+                Log.Information("Expense removed successfully.");
             } catch (Exception) {
-                GenericController.PrintError("Could not remove the expense.");
+                Log.Error("Could not remove the expense.");
             }
 
             return;
@@ -222,14 +223,14 @@ public class Handlers
         if (Income) {
             try {
                 MoneyHandler.RemoveIncome(Id);
-                GenericController.PrintSuccess("Income removed successfully.");
+                Log.Information("Income removed successfully.");
             } catch (Exception) {
-                GenericController.PrintError("Could not remove the income.");
+                Log.Error("Could not remove the income.");
             }
 
             return;
         }
 
-        GenericController.PrintError("Provide a valid option to remove.");
+        Log.Error("Provide a valid option to remove.");
     }
 }

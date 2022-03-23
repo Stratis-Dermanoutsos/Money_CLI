@@ -6,6 +6,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Money_CLI.Controllers;
+using Serilog;
 
 public static class SystemVariables
 {
@@ -50,9 +51,9 @@ public static class SystemVariables
                 string json = JsonSerializer.Serialize(_data);
                 File.WriteAllText(SystemVariablesFileName, json);
 
-                GenericController.PrintSuccess("Export folder has successfully been set.");
+                Log.Information("Export folder has successfully been set.");
             } catch (Exception) {
-                GenericController.PrintError("Could not set export folder.");
+                Log.Error("Could not set export folder.");
             }
         }
     }
@@ -80,9 +81,9 @@ public static class SystemVariables
                 string json = JsonSerializer.Serialize(_data);
                 File.WriteAllText(SystemVariablesFileName, json);
 
-                GenericController.PrintSuccess("Database folder has successfully been set.");
+                Log.Information("Database folder has successfully been set.");
             } catch (Exception) {
-                GenericController.PrintError("Could not set database folder.");
+                Log.Error("Could not set database folder.");
             }
         }
     }
@@ -110,9 +111,9 @@ public static class SystemVariables
                 string json = JsonSerializer.Serialize(_data);
                 File.WriteAllText(SystemVariablesFileName, json);
 
-                GenericController.PrintSuccess("Currency has successfully been set.");
+                Log.Information("Currency has successfully been set.");
             } catch (Exception) {
-                GenericController.PrintError("Could not set currency.");
+                Log.Error("Could not set currency.");
             }
         }
     }
@@ -135,11 +136,11 @@ public static class SystemVariables
             string json = JsonSerializer.Serialize(_data);
             File.WriteAllText(SystemVariablesFileName, json);
 
-            GenericController.PrintSuccess("System variables file has successfully been created.");
+            Log.Information("System variables file has successfully been created.");
 
             return true;
         } catch (Exception) {
-            GenericController.PrintError("Could not create system variables file.");
+            Log.Error("Could not create system variables file.");
 
             return false;
         }
