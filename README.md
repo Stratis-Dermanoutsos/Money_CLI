@@ -2,6 +2,7 @@
 
 ![Money CLI](https://img.shields.io/badge/Money-CLI-blueviolet)
 [![Nuget](https://img.shields.io/nuget/v/Money_CLI.svg)](https://nuget.org/packages/Money_CLI)
+[![Nuget downloads](https://img.shields.io/nuget/dt/Money_CLI.svg)](https://nuget.org/packages/Money_CLI)
 
 [![GitHub license](https://img.shields.io/github/license/Stratis-Dermanoutsos/Money_CLI.svg)](https://github.com/Stratis-Dermanoutsos/Money_CLI/blob/master/LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/Stratis-Dermanoutsos/Money_CLI.svg)](https://GitHub.com/Stratis-Dermanoutsos/Money_CLI/graphs/contributors/)
