@@ -1,17 +1,17 @@
 # Money_CLI
 
-![Money CLI](https://img.shields.io/badge/Money-CLI-blueviolet)
-[![Nuget](https://img.shields.io/nuget/v/Money_CLI.svg)](https://nuget.org/packages/Money_CLI)
-[![Nuget downloads](https://img.shields.io/nuget/dt/Money_CLI.svg)](https://nuget.org/packages/Money_CLI)
+[![Money CLI](https://img.shields.io/badge/Money-CLI-blueviolet)](https://github.com/Stratis-Dermanoutsos/Money_CLI)
+[![Nuget](https://img.shields.io/nuget/v/Money_CLI.svg?label=version)](https://nuget.org/packages/Money_CLI)
+[![Nuget downloads](https://img.shields.io/nuget/dt/Money_CLI.svg?label=downloads)](https://nuget.org/packages/Money_CLI)
 
 [![GitHub license](https://img.shields.io/github/license/Stratis-Dermanoutsos/Money_CLI.svg)](https://github.com/Stratis-Dermanoutsos/Money_CLI/blob/master/LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/Stratis-Dermanoutsos/Money_CLI.svg)](https://GitHub.com/Stratis-Dermanoutsos/Money_CLI/graphs/contributors/)
 [![GitHub issues](https://img.shields.io/github/issues/Stratis-Dermanoutsos/Money_CLI.svg)](https://GitHub.com/Stratis-Dermanoutsos/Money_CLI/issues/)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Stratis-Dermanoutsos/Money_CLI.svg)](https://GitHub.com/Stratis-Dermanoutsos/Money_CLI/pulls/)
 
-[![GitHub watchers](https://img.shields.io/github/watchers/stratis-dermanoutsos/Money_CLI.svg?style=social&label=Watch&maxAge=2592000)](https://GitHub.com/stratis-dermanoutsos/Money_CLI/watchers/)
-[![GitHub forks](https://img.shields.io/github/forks/stratis-dermanoutsos/Money_CLI.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/stratis-dermanoutsos/Money_CLI/network/)
-[![GitHub stars](https://img.shields.io/github/stars/stratis-dermanoutsos/Money_CLI.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/stratis-dermanoutsos/Money_CLI/stargazers/)
+[![GitHub watchers](https://img.shields.io/github/watchers/stratis-dermanoutsos/Money_CLI.svg?style=social&label=Watch)](https://GitHub.com/stratis-dermanoutsos/Money_CLI/watchers/)
+[![GitHub forks](https://img.shields.io/github/forks/stratis-dermanoutsos/Money_CLI.svg?style=social&label=Fork)](https://GitHub.com/stratis-dermanoutsos/Money_CLI/network/)
+[![GitHub stars](https://img.shields.io/github/stars/stratis-dermanoutsos/Money_CLI.svg?style=social&label=Star)](https://GitHub.com/stratis-dermanoutsos/Money_CLI/stargazers/)
 
 Money is an Open Source CLI tool for anyone to note and see quick stats of their money usage.
 
@@ -33,7 +33,7 @@ It is a private, lightweight and easy to use solution.
      dotnet tool install --global Money_CLI --version 1.0.1-alpha
      ```
 
-   - from [github](https://github.com/Stratis-Dermanoutsos/Money_CLI)
+   - from [github packages](https://github.com/Stratis-Dermanoutsos/Money_CLI)
 
      ```bash
      dotnet add PROJECT package Money_CLI --version 1.0.1-alpha
