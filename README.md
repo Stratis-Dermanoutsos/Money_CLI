@@ -27,17 +27,9 @@ It is a private, lightweight and easy to use solution.
 
 1. Install the package
 
-   - from [nuget](https://www.nuget.org/packages/Money_CLI/)
-
-     ```bash
-     dotnet tool install --global Money_CLI --version 1.0.1-alpha
-     ```
-
-   - from [github packages](https://github.com/Stratis-Dermanoutsos/Money_CLI)
-
-     ```bash
-     dotnet add PROJECT package Money_CLI --version 1.0.1-alpha
-     ```
+   ```bash
+   dotnet tool install --global Money_CLI --version 1.0.1-alpha
+   ```
 
 2. Run the help command for more information
 
