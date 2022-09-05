@@ -19,7 +19,8 @@ public class FileHandler : GenericController
     /// </summary>
     public static string CurrentFileName
     {
-        get {
+        get
+        {
             string monthFullName = DateTime.Now.ToString("MMMM");
 
             return $"{GetDate[1].ToString("00")}-{monthFullName}";
@@ -43,34 +44,80 @@ public class FileHandler : GenericController
     /// </summary>
     public static string? GetFile(ChangeType changeType, int month, int year)
     {
-        try {
-            // Set the category folder
+        try
+        {
             string categoryFolder;
-            switch (changeType) {
+            string folderPath = SystemVariables.ExportFolder; // default value only set to prevent null returns
+            string filename = "ExportedOn" + DateTime.Now.ToString("yyyyMMdd-HHmm"); // default value only set to prevent null returns
+
+            switch (changeType)
+            {
                 case ChangeType.Income:
                     categoryFolder = "Income";
                     break;
-                default:
-                    categoryFolder = "Expenses";
+                case ChangeType.Expense:
+                    categoryFolder = "Expense";
                     break;
+                default:
+                    Log.Error("ChangeType enum could not be determined for file export naming.");
+                    return null;
             }
 
-            // Select the year from the input, only if it's valid
-            int chosenYear = YearIsValid(year) ? year : GetDate[2];
+            // If specific year and month are specified
+            if (MonthIsValid(month) && YearIsValid(year))
+            {
+                folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{year}/");
 
-            // Create the folder, if it doesn't exist
-            string folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{chosenYear}/");
-            if (!Directory.Exists(folderPath)) {
-                Directory.CreateDirectory(folderPath);
-                Log.Information("Created folder {folderPath}", folderPath);
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                    Log.Information("Created folder {folderPath}", folderPath);
+                }
+
+                filename = FileName(month);
             }
 
-            // Select the month from the input, only if it's valid
-            string fileName = MonthIsValid(month) ? FileName(month) : CurrentFileName;
+            // If only specific year is specified
+            else if (!MonthIsValid(month) && YearIsValid(year))
+            {
+                folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{year}/");
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                    Log.Information("Created folder {folderPath}", folderPath);
+                }
+            }
+
+            // If only specific month is specified
+            else if (MonthIsValid(month) && !YearIsValid(year))
+            {
+                folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{FileName(month)}/");
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                    Log.Information("Created folder {folderPath}", folderPath);
+                }
+            }
+
+            // If neither month or year are specified, export all table data to the root categoryFolder
+            else
+            {
+                folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/");
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                    Log.Information("Created folder {folderPath}", folderPath);
+                }
+            }
 
             // Create the file, if it doesn't exist
-            string fullPath = @$"{folderPath}{fileName}.md";
-            if (!File.Exists(fullPath)) {
+            string fullPath = @$"{folderPath}{filename}.md";
+
+            if (!File.Exists(fullPath))
+            {
                 File.Create(fullPath).Close();
                 Log.Information("Created file {fullPath}", fullPath);
             }
@@ -78,7 +125,9 @@ public class FileHandler : GenericController
             Log.Information("Your {changeType} will be exported to {fullPath}", (changeType == ChangeType.Expense ? "expenses" : "income"), fullPath);
 
             return fullPath;
-        } catch (Exception) {
+        }
+        catch (Exception)
+        {
             return null;
         }
     }
@@ -86,69 +135,133 @@ public class FileHandler : GenericController
     /// <summary>
     /// Exports all changes to the current file.
     /// </summary>
-    public static bool Export(ChangeType changeType, int month, int year)
+    /// 
+    public static void Export(ChangeType changeType, int month, int year)
     {
-        string? file = GetFile(changeType, month, year);
+        string? file;
+        List<string> outputFileContents = new List<string>();
+        List<string> outputFileContentsItems = new List<string>();
+        double total = 0;
 
-        if (file == null)
-            return false;
-
-        if (!MonthIsValid(month))
-            month = GetDate[1];
-
-        if (!YearIsValid(year))
-            year = GetDate[2];
-
-        try {
-            List<string> template;
-            double total = 0;
-
-            switch (changeType)
+        if (changeType == ChangeType.Expense)
+        {
+            try
             {
-                case ChangeType.Income:
-                    // Get total amount
-                    total = MoneyHandler.TotalMonthlyIncome(month, year);
+                List<Expense> expenses;
 
-                    // Load the file template
-                    template = FileTemplates.FileTemplate(
-                            "Income",
-                            // Select the month from the input, only if it's valid
-                            MonthIsValid(month) ? FileName(month) : CurrentFileName,
-                            total
-                        ).ToList();
+                // Only get the expenses that are specified by the user, or all.
+                if (MonthIsValid(month) && YearIsValid(year))
+                    expenses = MoneyHandler.AllMonthlyExpensesById(month, year);
 
-                    // Get all entries and add them to the list
-                    foreach (Income income in MoneyHandler.AllMonthlyIncome(month, year))
-                        template.Add(income.ToString());
+                else if (MonthIsValid(month) && !YearIsValid(year))
+                    expenses = MoneyHandler.AllExpensesOnMonth(month);
 
-                    break;
-                case ChangeType.Expense:
-                    // Get total amount
-                    total = MoneyHandler.TotalMonthlyExpenses(month, year);
+                else if (!MonthIsValid(month) && YearIsValid(year))
+                    expenses = MoneyHandler.AllExpensesOnYear(year);
 
-                    // Load the file template
-                    template = FileTemplates.FileTemplate(
-                            "Expenses",
-                            // Select the month from the input, only if it's valid
-                            MonthIsValid(month) ? FileName(month) : CurrentFileName,
-                            total
-                        ).ToList();
+                else
+                    expenses = MoneyHandler.AllExpenses();
 
-                    // Get all entries and add them to the list
-                    foreach (Expense expense in MoneyHandler.AllMonthlyExpenses(month, year))
-                        template.Add(expense.ToString());
+                if (expenses.Count == 0)
+                {
+                    Log.Warning("There are no expenses to list.");
+                    return;
+                }
 
-                    break;
-                default:
-                    return false;
+                // Get all entries and add them to the list
+                foreach (Expense expense in expenses)
+                {
+                    outputFileContentsItems.Add(expense.ToString());
+                    total += expense.Amount; //TODO: this line makes MoneyHandler.TotalMonthlyExpenses and MoneyHandler.TotalMonthlyIncome redundant (remove functions?)
+                }
+
+                outputFileContents = FileTemplates.FileTemplate(
+                        changeType.ToString(),
+                        MonthIsValid(month) ? FileName(month) : CurrentFileName,
+                        total
+                    ).ToList();
+
+                outputFileContents = outputFileContents.Concat(outputFileContentsItems).ToList(); // Combine lists and place the header at the beginning
+
+                file = GetFile(changeType, month, year); // Generate file name here so that paths are not being generated for empty result table queries
+                if (file == null)
+                {
+                    Log.Error("Export could not be completed due to file naming error.");
+                    return;
+                }
+
+                // Write the file
+                File.WriteAllLines(file, outputFileContents);
+                return;
             }
+            catch (Exception)
+            {
+                Log.Error("Error when trying to export expenses to file.");
+                return;
+            }
+        }
 
-            // Write the file
-            File.WriteAllLines(file, template);
+        if (changeType == ChangeType.Income)
+        {
+            try
+            {
+                List<Income> incomes;
 
-            return true;
-        } catch (Exception) {
-            return false;
+                // Only get the income that is specified by the user, or all.
+                if (MonthIsValid(month) && YearIsValid(year))
+                    incomes = MoneyHandler.AllMonthlyIncomeById(month, year);
+
+                else if (MonthIsValid(month) && !YearIsValid(year))
+                    incomes = MoneyHandler.AllIncomeOnMonth(month);
+
+                else if (!MonthIsValid(month) && YearIsValid(year))
+                    incomes = MoneyHandler.AllIncomeOnYear(year);
+
+                else
+                    incomes = MoneyHandler.AllIncome();
+
+                if (incomes.Count == 0)
+                {
+                    Log.Warning("There are no incomes to list.");
+                    return;
+                }
+
+                // Get all entries and add them to the list
+                foreach (Income income in incomes)
+                {
+                    outputFileContentsItems.Add(income.ToString());
+                    total += income.Amount; //TODO: this line makes MoneyHandler.TotalMonthlyExpenses and MoneyHandler.TotalMonthlyIncome redundant (remove functions?)
+                }
+
+                outputFileContents = FileTemplates.FileTemplate(
+                        changeType.ToString(),
+                        MonthIsValid(month) ? FileName(month) : CurrentFileName,
+                        total
+                    ).ToList();
+
+                outputFileContents = outputFileContents.Concat(outputFileContentsItems).ToList(); // Combine lists and place the header at the beginning
+
+                file = GetFile(changeType, month, year); // Generate file name here so that paths are not being generated for empty result table queries
+                if (file == null)
+                {
+                    Log.Error("Export could not be completed due to file naming error.");
+                    return;
+                }
+
+                // Write the file
+                File.WriteAllLines(file, outputFileContents);
+                return;
+            }
+            catch (Exception)
+            {
+                Log.Error("Error when trying to export expenses to file.");
+                return;
+            }
         }
     }
 }
+
+
+
+
+
