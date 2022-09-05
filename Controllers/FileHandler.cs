@@ -48,7 +48,7 @@ public class FileHandler : GenericController
         {
             string categoryFolder;
             string folderPath = SystemVariables.ExportFolder; // default value only set to prevent null returns
-            string filename = "ExportedOn" + DateTime.Now.ToString("yyyyMMdd-HHmm"); // default value only set to prevent null returns
+            string filename = "ExportedOn" + DateTime.Now.ToString("yyyyMMdd-HHmm"); 
 
             switch (changeType)
             {
@@ -73,8 +73,6 @@ public class FileHandler : GenericController
                     Directory.CreateDirectory(folderPath);
                     Log.Information("Created folder {folderPath}", folderPath);
                 }
-
-                filename = FileName(month);
             }
 
             // If only specific year is specified
