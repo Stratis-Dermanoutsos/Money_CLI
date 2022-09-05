@@ -1,7 +1,6 @@
 namespace Money_CLI.Controllers;
 
 using Money_CLI.Models;
-using Money_CLI.Models.Enums;
 
 public static class MoneyHandler
 {
@@ -35,33 +34,8 @@ public static class MoneyHandler
 
     #region All monthly income and expenses
     /// <summary>
-    /// Returns a list containing all income/expenses for the specified month & year.
+    /// Returns an List containing all monthly expenses.
     /// </summary>
-    /// 
-    public static T? AllItemsById_MonthAndYear<T>(ChangeType changeType, int month, int year) where T : class //TODO: could not make this generic function example work. Instead, eliminate Income/Expense models and just use ChangeBase?
-    {
-        using (AppDbContext context = new AppDbContext())
-        {
-            switch (changeType)
-            {
-                case ChangeType.Expense:
-                    return (T)(object)context.Expenses
-                                             .Where(i => i.Month == month && i.Year == year)
-                                             .OrderBy(i => i.Id)
-                                             .ToList();
-
-                case ChangeType.Income:
-                    return (T)(object)context.Incomes
-                                             .Where(i => i.Month == month && i.Year == year)
-                                             .OrderBy(i => i.Id)
-                                             .ToList();
-                default:
-                    return default(T);
-            }
-        }
-    }
-
-
     public static List<Expense> AllMonthlyExpenses(int month, int year)
     {
         using (AppDbContext context = new AppDbContext())

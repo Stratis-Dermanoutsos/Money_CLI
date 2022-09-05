@@ -19,8 +19,7 @@ public class FileHandler : GenericController
     /// </summary>
     public static string CurrentFileName
     {
-        get
-        {
+        get {
             string monthFullName = DateTime.Now.ToString("MMMM");
 
             return $"{GetDate[1].ToString("00")}-{monthFullName}";
@@ -70,9 +69,9 @@ public class FileHandler : GenericController
 
                 if (!Directory.Exists(folderPath))
                 {
-                    Directory.CreateDirectory(folderPath);
-                    Log.Information("Created folder {folderPath}", folderPath);
-                }
+                Directory.CreateDirectory(folderPath);
+                Log.Information("Created folder {folderPath}", folderPath);
+            }
 
                 filename = FileName(month);
             }
@@ -125,9 +124,7 @@ public class FileHandler : GenericController
             Log.Information("Your {changeType} will be exported to {fullPath}", (changeType == ChangeType.Expense ? "expenses" : "income"), fullPath);
 
             return fullPath;
-        }
-        catch (Exception)
-        {
+        } catch (Exception) {
             return null;
         }
     }
@@ -163,7 +160,7 @@ public class FileHandler : GenericController
                     expenses = MoneyHandler.AllExpenses();
 
                 if (expenses.Count == 0)
-                {
+            {
                     Log.Warning("There are no expenses to list.");
                     return;
                 }
@@ -177,9 +174,9 @@ public class FileHandler : GenericController
 
                 outputFileContents = FileTemplates.FileTemplate(
                         changeType.ToString(),
-                        MonthIsValid(month) ? FileName(month) : CurrentFileName,
-                        total
-                    ).ToList();
+                            MonthIsValid(month) ? FileName(month) : CurrentFileName,
+                            total
+                        ).ToList();
 
                 outputFileContents = outputFileContents.Concat(outputFileContentsItems).ToList(); // Combine lists and place the header at the beginning
 
@@ -235,9 +232,9 @@ public class FileHandler : GenericController
 
                 outputFileContents = FileTemplates.FileTemplate(
                         changeType.ToString(),
-                        MonthIsValid(month) ? FileName(month) : CurrentFileName,
-                        total
-                    ).ToList();
+                            MonthIsValid(month) ? FileName(month) : CurrentFileName,
+                            total
+                        ).ToList();
 
                 outputFileContents = outputFileContents.Concat(outputFileContentsItems).ToList(); // Combine lists and place the header at the beginning
 
@@ -246,9 +243,9 @@ public class FileHandler : GenericController
                 {
                     Log.Error("Export could not be completed due to file naming error.");
                     return;
-                }
+            }
 
-                // Write the file
+            // Write the file
                 File.WriteAllLines(file, outputFileContents);
                 return;
             }
@@ -260,8 +257,3 @@ public class FileHandler : GenericController
         }
     }
 }
-
-
-
-
-
