@@ -116,18 +116,17 @@ public class Handlers
         bool Income,
         int Month,
         int Year
-    ) {
-        if (Expense) {
-            if (!FileHandler.Export(ChangeType.Expense, Month, Year))
-                Log.Error("Could not export the expenses.");
-
+    )
+    {
+        if (Expense)
+        {
+            FileHandler.Export(ChangeType.Expense, Month, Year);
             return;
         }
 
-        if (Income) {
-            if (!FileHandler.Export(ChangeType.Income, Month, Year))
-                Log.Error("Could not export the income.");
-
+        if (Income)
+        {
+            FileHandler.Export(ChangeType.Income, Month, Year);
             return;
         }
 
