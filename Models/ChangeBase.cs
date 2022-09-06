@@ -10,6 +10,8 @@ public class ChangeBase
     [Key]
     public int Id { get; set; }
 
+    public DateTime Date_in { get; set; } = DateTime.Now;
+
     [Required]
     public string Title { get; set; } = "New Change";
 

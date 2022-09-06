@@ -4,6 +4,7 @@ public class Income : ChangeBase
 {
     public Income(ChangeBase cb)
     {
+        this.Date_in = cb.Date_in;
         this.Title = cb.Title;
         this.Amount = cb.Amount;
         this.Year = cb.Year;
