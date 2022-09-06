@@ -47,7 +47,7 @@ public class FileHandler : GenericController
         {
             string categoryFolder;
             string folderPath = SystemVariables.ExportFolder; // default value only set to prevent null returns
-            string filename = "ExportedOn" + DateTime.Now.ToString("yyyyMMdd-HHmm");
+            string filename = "Exported_on_" + DateTime.Now.ToString("yyyy-MM-dd-HHmm");
 
             switch (changeType)
             {
@@ -63,48 +63,37 @@ public class FileHandler : GenericController
             }
 
             // If specific year and month are specified
-            if (MonthIsValid(month) && YearIsValid(year))
-            {
+            if (MonthIsValid(month) && YearIsValid(year)) {
                 folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{year}/");
 
-                if (!Directory.Exists(folderPath))
-                {
-                Directory.CreateDirectory(folderPath);
-                Log.Information("Created folder {folderPath}", folderPath);
-                }
-            }
-
-            // If only specific year is specified
-            else if (!MonthIsValid(month) && YearIsValid(year))
-            {
-                folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{year}/");
-
-                if (!Directory.Exists(folderPath))
-                {
+                if (!Directory.Exists(folderPath)) {
                     Directory.CreateDirectory(folderPath);
                     Log.Information("Created folder {folderPath}", folderPath);
                 }
             }
+            // If only specific year is specified
+            else if (!MonthIsValid(month) && YearIsValid(year)) {
+                folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{year}/");
 
+                if (!Directory.Exists(folderPath)) {
+                    Directory.CreateDirectory(folderPath);
+                    Log.Information("Created folder {folderPath}", folderPath);
+                }
+            }
             // If only specific month is specified
-            else if (MonthIsValid(month) && !YearIsValid(year))
-            {
+            else if (MonthIsValid(month) && !YearIsValid(year)) {
                 folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/{FileName(month)}/");
 
-                if (!Directory.Exists(folderPath))
-                {
+                if (!Directory.Exists(folderPath)) {
                     Directory.CreateDirectory(folderPath);
                     Log.Information("Created folder {folderPath}", folderPath);
                 }
             }
-
             // If neither month or year are specified, export all table data to the root categoryFolder
-            else
-            {
+            else {
                 folderPath = EnsureDirectory(@$"{SystemVariables.ExportFolder}{categoryFolder}/");
 
-                if (!Directory.Exists(folderPath))
-                {
+                if (!Directory.Exists(folderPath)) {
                     Directory.CreateDirectory(folderPath);
                     Log.Information("Created folder {folderPath}", folderPath);
                 }
@@ -113,8 +102,7 @@ public class FileHandler : GenericController
             // Create the file, if it doesn't exist
             string fullPath = @$"{folderPath}{filename}.md";
 
-            if (!File.Exists(fullPath))
-            {
+            if (!File.Exists(fullPath)) {
                 File.Create(fullPath).Close();
                 Log.Information("Created file {fullPath}", fullPath);
             }
