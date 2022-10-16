@@ -37,9 +37,27 @@ public class GenericController
         return directory.Replace("\\", sepChar);
     }
 
-    #region Month and Year validations
+    #region Day, Month and Year validations
     /// <summary>
-    /// Validates the value of the month from the input.
+    /// Validates the value of the day provided.
+    /// <br />
+    /// <paramref name="day"/>
+    /// <param name="day">Day to be validated</param>
+    /// <br />
+    /// <returns>Returns true if the day is valid, false otherwise.</returns>
+    /// </summary>
+    public static bool DayIsValid(int day)
+    {
+        return 1 <= day && day <= 31;
+    }
+
+    /// <summary>
+    /// Validates the value of the month provided.
+    /// <br />
+    /// <paramref name="month"/>
+    /// <param name="month">Month to be validated</param>
+    /// <br />
+    /// <returns>Returns true if the month is valid, false otherwise.</returns>
     /// </summary>
     public static bool MonthIsValid(int month)
     {
@@ -47,7 +65,12 @@ public class GenericController
     }
 
     /// <summary>
-    /// Validates the value of the year from the input.
+    /// Validates the value of the year provided.
+    /// <br />
+    /// <paramref name="year"/>
+    /// <param name="year">Year to be validated</param>
+    /// <br />
+    /// <returns>Returns true if the year is valid, false otherwise.</returns>
     /// </summary>
     public static bool YearIsValid(int year)
     {
