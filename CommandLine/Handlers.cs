@@ -145,7 +145,7 @@ public class Handlers
             if (Expense && Income)
                 throw new Exception("You can list either expenses or incomes, not both.");
             else if (!Expense && !Income)
-                throw new Exception("Provide a valid option to list.");
+                throw new Exception("Provide a valid type to list.");
 
             //* Get all
             AppDbContext context = new AppDbContext();
@@ -165,7 +165,7 @@ public class Handlers
 
             //* Print if none
             if (changes.Count() == 0) {
-                String? type = Expense ? "expenses" : "incomes";
+                String type = Expense ? "expenses" : "incomes";
                 Log.Warning($"There are no {type} to list.");
                 return;
             }
@@ -185,33 +185,28 @@ public class Handlers
         bool Income,
         int Id
     ) {
-        if (Id == 0) {
-            Log.Error("Provide a valid ID.");
-            return;
+        try {
+            //* Validate id
+            if (Id == 0)
+                throw new Exception("Provide a valid ID.");
+
+            //* Validate type
+            if (Expense && Income)
+                throw new Exception("You can remove either an expense or an income, not both.");
+            else if (!Expense && !Income)
+                throw new Exception("Provide a valid type to remove.");
+            String type = Expense ? "Expense" : "Income";
+
+            //* Remove change
+            if (Expense)
+                MoneyHandler.RemoveChange<Expense>(Id);
+            else
+                MoneyHandler.RemoveChange<Income>(Id);
+
+            Log.Information($"{type} removed successfully.");
+        } catch (Exception e) {
+            Log.Error(e.Message);
+            // Log.Error(e.StackTrace); //? Debug
         }
-
-        if (Expense) {
-            try {
-                MoneyHandler.RemoveExpense(Id);
-                Log.Information("Expense removed successfully.");
-            } catch (Exception) {
-                Log.Error("Could not remove the expense.");
-            }
-
-            return;
-        }
-
-        if (Income) {
-            try {
-                MoneyHandler.RemoveIncome(Id);
-                Log.Information("Income removed successfully.");
-            } catch (Exception) {
-                Log.Error("Could not remove the income.");
-            }
-
-            return;
-        }
-
-        Log.Error("Provide a valid option to remove.");
     }
 }
