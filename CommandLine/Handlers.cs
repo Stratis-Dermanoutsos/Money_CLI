@@ -139,63 +139,40 @@ public class Handlers
         int Month,
         int Year
     ) {
-        if (Expense) {
-            try {
-                List<Expense> expenses;
+        try {
+            //* Validate type
+            if (Expense && Income)
+                throw new Exception("You can list either expenses or incomes, not both.");
+            else if (!Expense && !Income)
+                throw new Exception("Provide a valid option to list.");
 
-                // Only get the expenses that are specified by the user, or all.
-                if (GenericController.MonthIsValid(Month) && GenericController.YearIsValid(Year))
-                    expenses = MoneyHandler.AllMonthlyExpensesById(Month, Year);
-                else if (GenericController.MonthIsValid(Month))
-                    expenses = MoneyHandler.AllExpensesOnMonth(Month);
-                else if (GenericController.YearIsValid(Year))
-                    expenses = MoneyHandler.AllExpensesOnYear(Year);
-                else
-                    expenses = MoneyHandler.AllExpenses();
+            //* Get all
+            AppDbContext context = new AppDbContext();
+            IQueryable<ChangeBase> changes = Expense ? context.Expenses : context.Incomes;
 
-                if (expenses.Count == 0) {
-                    Log.Warning("There are no expenses to list.");
-                    return;
-                }
+            //* Filter by month
+            if (GenericController.MonthIsValid(Month))
+                changes = changes.ByMonth(Month);
 
-                foreach (Expense expense in expenses)
-                    Log.Information(expense.ToString("list"));
-            } catch (Exception) {
-                Log.Error("Could not list the expenses.");
+            //* Filter by year
+            if (GenericController.YearIsValid(Year))
+                changes = changes.ByYear(Year);
+
+            //* Print if none
+            if (changes.Count() == 0) {
+                String? type = Expense ? "expenses" : "incomes";
+                Log.Warning($"There are no {type} to list.");
+                return;
             }
 
-            return;
+            //* Sort & show result
+            changes = changes.OrderBy(c => c.Id);
+            foreach (ChangeBase change in changes)
+                Log.Information(change.ToString("list"));
+        } catch (Exception e) {
+            Log.Error(e.Message);
+            // Log.Error(e.StackTrace); //? Debug
         }
-
-        if (Income) {
-            try {
-                List<Income> incomes;
-
-                // Only get the income that are specified by the user, or all.
-                if (GenericController.MonthIsValid(Month) && GenericController.YearIsValid(Year))
-                    incomes = MoneyHandler.AllMonthlyIncomeById(Month, Year);
-                else if (GenericController.MonthIsValid(Month))
-                    incomes = MoneyHandler.AllIncomeOnMonth(Month);
-                else if (GenericController.YearIsValid(Year))
-                    incomes = MoneyHandler.AllIncomeOnYear(Year);
-                else
-                    incomes = MoneyHandler.AllIncome();
-
-                if (incomes.Count == 0) {
-                    Log.Warning("There is no income to list.");
-                    return;
-                }
-
-                foreach (Income income in incomes)
-                    Log.Information(income.ToString("list"));
-            } catch (Exception) {
-                Log.Error("Could not list the income.");
-            }
-
-            return;
-        }
-
-        Log.Error("Provide a valid option to list.");
     }
 
     public static void ExecuteRemove(
