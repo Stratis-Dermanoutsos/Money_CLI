@@ -5,10 +5,10 @@ using Money_CLI.Models;
 public static class QueryShortener
 {
     /// <summary>
-    /// <paramref name = "entities" />
+    /// <paramref name="entities" />
     /// <param name="entities">The entities to query</param>
     /// <br />
-    /// <paramref name = "day" />
+    /// <paramref name="day" />
     /// <param name="day">The day to filter by</param>
     /// <br />
     /// <returns>Returns an IQueryable containing changes filtered by day.</returns>
@@ -19,10 +19,10 @@ public static class QueryShortener
     }
 
     /// <summary>
-    /// <paramref name = "entities" />
+    /// <paramref name="entities" />
     /// <param name="entities">The entities to query</param>
     /// <br />
-    /// <paramref name = "month" />
+    /// <paramref name="month" />
     /// <param name="month">The month to filter by</param>
     /// <br />
     /// <returns>Returns an IQueryable containing changes filtered by month.</returns>
@@ -33,10 +33,10 @@ public static class QueryShortener
     }
 
     /// <summary>
-    /// <paramref name = "entities" />
+    /// <paramref name="entities" />
     /// <param name="entities">The entities to query</param>
     /// <br />
-    /// <paramref name = "year" />
+    /// <paramref name="year" />
     /// <param name="year">The year to filter by</param>
     /// <br />
     /// <returns>Returns an IQueryable containing changes filtered by year.</returns>
