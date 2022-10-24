@@ -151,32 +151,6 @@ public static class MoneyHandler
     }
     #endregion
 
-    #region Add new income/expense
-    /// <summary>
-    /// Adds a new expense to the database.
-    /// </summary>
-    public static void AddExpense(Expense expense)
-    {
-        using (AppDbContext context = new AppDbContext())
-        {
-            context.Expenses.Add(expense);
-            context.SaveChanges();
-        }
-    }
-
-    /// <summary>
-    /// Adds a new income to the database.
-    /// </summary>
-    public static void AddIncome(Income income)
-    {
-        using (AppDbContext context = new AppDbContext())
-        {
-            context.Incomes.Add(income);
-            context.SaveChanges();
-        }
-    }
-    #endregion
-
     #region  Return all income/expenses.
     /// <summary>
     /// Returns all expenses.
@@ -204,6 +178,21 @@ public static class MoneyHandler
         }
     }
     #endregion
+
+    /// <summary>
+    /// Adds a change to the database.
+    /// <br />
+    /// <paramref name="change"/>
+    /// <param name="change">The change to add.</param>
+    /// </summary>
+    public static void AddChange<T>(T change) where T : ChangeBase
+    {
+        using (AppDbContext context = new AppDbContext())
+        {
+            context.Set<T>().Add(change);
+            context.SaveChanges();
+        }
+    }
 
     /// <summary>
     /// Removes a change from the database.

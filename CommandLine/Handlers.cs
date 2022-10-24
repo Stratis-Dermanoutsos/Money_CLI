@@ -75,6 +75,14 @@ public class Handlers
         int Day,
         string Comment
     ) {
+        //* Validate type
+        if (Expense && Income)
+            throw new Exception("You can add either an expense or income, not both.");
+        else if (!Expense && !Income)
+            throw new Exception("Provide a valid type to add.");
+        String type = Expense ? "Expense" : "Income";
+
+        //* Build the object
         ChangeBase change = new ChangeBase()
                             .SetTitle(Title ?? string.Empty)
                             .SetAmount(Amount)
@@ -89,26 +97,16 @@ public class Handlers
         if (Day != 0)
             change.SetDay(Day);
 
-        /* Add the change to the database
-        ! Only 1 change type can be set at a time. */
-        if (Expense) {
-            Expense expense = new Expense(change);
-            try {
-                MoneyHandler.AddExpense(expense);
-                Log.Information("Expense added successfully.");
-            } catch (Exception) {
-                Log.Error("Could not add expense.");
-            }
-        } else if (Income) {
-            Income income = new Income(change);
-            try {
-                MoneyHandler.AddIncome(income);
-                Log.Information("Income added successfully.");
-            } catch (Exception) {
-                Log.Error("Could not add income.");
-            }
-        } else
-            Log.Error("You must specify whether the change is an expense or income.");
+        try {
+            //* Add change
+            if (Expense)
+                MoneyHandler.AddChange<Expense>(new Expense(change));
+            else
+                MoneyHandler.AddChange<Income>(new Income(change));
+            Log.Information($"{type} added successfully.");
+        } catch (Exception) {
+            Log.Error($"Could not add {type.ToLower()}.");
+        }
     }
 
     public static void ExecuteExport(
