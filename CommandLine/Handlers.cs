@@ -65,6 +65,33 @@ public class Handlers
         }
     }
 
+    /// <summary>
+    /// Command to add a change.
+    /// <br />
+    /// <paramref name="Expense" />
+    /// <param name="Expense">boolean value that indicates if the change is expense.</param>
+    /// <br />
+    /// <paramref name="Income" /> 
+    /// <param name="Income">boolean value that indicates if the change is income.</param>
+    /// <br />
+    /// <paramref name="Title" /> 
+    /// <param name="Title">Set the title for the change to add.</param>
+    /// <br />
+    /// <paramref name="Amount" /> 
+    /// <param name="Amount">Set the amount of money for the change to add.</param>
+    /// <br />
+    /// <paramref name="Day" /> 
+    /// <param name="Day">Specify day for the change to add.</param>
+    /// <br />
+    /// <paramref name="Month" /> 
+    /// <param name="Month">Specify month for the change to add.</param>
+    /// <br />
+    /// <paramref name="Year" /> 
+    /// <param name="Year">Specify year for the change to add.</param>
+    /// <br />
+    /// <paramref name="Comment" /> 
+    /// <param name="Comment">Add a comment for the change to add.</param>
+    /// </summary>
     public static void ExecuteAdd(
         bool Expense,
         bool Income,
@@ -131,6 +158,24 @@ public class Handlers
         Log.Error("Provide a valid option to export.");
     }
 
+    /// <summary>
+    /// Command to list changes.
+    /// <br />
+    /// <paramref name="Expense" />
+    /// <param name="Expense">boolean value that indicates if the changes are expenses.</param>
+    /// <br />
+    /// <paramref name="Income" /> 
+    /// <param name="Income">boolean value that indicates if the changes are incomes.</param>
+    /// <br />
+    /// <paramref name="Day" /> 
+    /// <param name="Day">Filter the changes by day.</param>
+    /// <br />
+    /// <paramref name="Month" /> 
+    /// <param name="Month">Filter the changes by month.</param>
+    /// <br />
+    /// <paramref name="Year" /> 
+    /// <param name="Year">Filter the changes by year.</param>
+    /// </summary>
     public static void ExecuteList(
         bool Expense,
         bool Income,
@@ -178,6 +223,18 @@ public class Handlers
         }
     }
 
+    /// <summary>
+    /// Command to remove a change.
+    /// <br />
+    /// <paramref name="Expense" />
+    /// <param name="Expense">boolean value that indicates if the change is expense.</param>
+    /// <br />
+    /// <paramref name="Income" /> 
+    /// <param name="Income">boolean value that indicates if the change is income.</param>
+    /// <br />
+    /// <paramref name="Id" /> 
+    /// <param name="Id">is the ID of the change to remove.</param>
+    /// </summary>
     public static void ExecuteRemove(
         bool Expense,
         bool Income,
