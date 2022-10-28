@@ -143,14 +143,12 @@ public class Handlers
         int Year
     )
     {
-        if (Expense)
-        {
+        if (Expense) {
             FileHandler.Export(ChangeType.Expense, Month, Year);
             return;
         }
 
-        if (Income)
-        {
+        if (Income) {
             FileHandler.Export(ChangeType.Income, Month, Year);
             return;
         }
