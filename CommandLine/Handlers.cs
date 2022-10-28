@@ -212,7 +212,7 @@ public class Handlers
             }
 
             //* Sort & show result
-            changes = changes.OrderBy(c => c.Id);
+            changes = changes.Ordered();
             foreach (ChangeBase change in changes)
                 Log.Information(change.ToString("list"));
         } catch (Exception e) {

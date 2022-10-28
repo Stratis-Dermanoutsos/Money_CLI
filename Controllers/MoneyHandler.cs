@@ -57,7 +57,7 @@ public static class MoneyHandler
         {
             return context.Expenses
                             .Where(i => i.Month == month && i.Year == year)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -85,7 +85,7 @@ public static class MoneyHandler
         {
             return context.Incomes
                             .Where(i => i.Month == month && i.Year == year)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -101,7 +101,7 @@ public static class MoneyHandler
         {
             return context.Expenses
                             .Where(i => i.Month == month)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -115,7 +115,7 @@ public static class MoneyHandler
         {
             return context.Incomes
                             .Where(i => i.Month == month)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -131,7 +131,7 @@ public static class MoneyHandler
         {
             return context.Expenses
                             .Where(i => i.Year == year)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -145,7 +145,7 @@ public static class MoneyHandler
         {
             return context.Incomes
                             .Where(i => i.Year == year)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -160,7 +160,7 @@ public static class MoneyHandler
         using (AppDbContext context = new AppDbContext())
         {
             return context.Expenses
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -173,7 +173,7 @@ public static class MoneyHandler
         using (AppDbContext context = new AppDbContext())
         {
             return context.Incomes
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }

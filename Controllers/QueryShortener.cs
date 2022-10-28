@@ -45,4 +45,15 @@ public static class QueryShortener
     {
         return entities.Where(i => i.Year == year);
     }
+
+    /// <summary>
+    /// <paramref name="entities" />
+    /// <param name="entities">The entities to order</param>
+    /// <br />
+    /// <returns>Returns an IQueryable containing changes ordered by id.</returns>
+    /// </summary>
+    public static IQueryable<T> Ordered<T>(this IQueryable<T> entities) where T : ChangeBase
+    {
+        return entities.OrderBy(i => i.Id);
+    }
 }
