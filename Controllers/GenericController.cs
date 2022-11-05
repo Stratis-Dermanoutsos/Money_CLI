@@ -4,10 +4,11 @@ using System;
 using System.IO;
 
 // TODO: Change the name to anything more meaningful.
-
 public class GenericController
 {
     /// <summary>
+    /// Property
+    /// <br />
     /// Returns the date in array format.
     /// </summary>
     public static int[] GetDate
@@ -21,7 +22,13 @@ public class GenericController
 
     /// <summary>
     /// Ensures a directory contains correct Separator characters.
-    /// For better understanding, go to https://docs.microsoft.com/en-us/dotnet/api/system.io.path.directoryseparatorchar
+    /// <br />
+    /// For better understanding, go to https://docs.microsoft.com/en-us/dotnet/api/system.io.path.directoryseparatorchar.
+    /// <br />
+    /// <paramref name="directory"/>
+    /// <param name="directory">Day to be validated</param>
+    /// <br />
+    /// <returns>Returns the directory path adapted to the operating system.</returns>
     /// </summary>
     public static string EnsureDirectory(string directory)
     {
