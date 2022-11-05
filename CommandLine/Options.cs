@@ -103,6 +103,14 @@ public class Options
 
     #region Search options
     /// <summary>
+    /// Sets the item content for the item to search for.
+    /// </summary>
+    public static Option<string> Content = new Option<string>(
+        aliases: new string[] { "--content" },
+        description: "Set the content of the item. It searches for the content either in title or comment."
+    );
+
+    /// <summary>
     /// Sets the item Id for the item to search for.
     /// </summary>
     public static Option<int> Id = new Option<int>(

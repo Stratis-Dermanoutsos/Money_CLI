@@ -97,10 +97,13 @@ public class Commands
                 description: "List income or expenses. Get all or filter by arguments."
             );
 
-            _list.Handler = CommandHandler.Create<bool, bool, int, int, int>(Handlers.ExecuteList);
+            _list.Handler = CommandHandler.Create<bool, bool, string, string, string, int, int, int>(Handlers.ExecuteList);
 
             _list.AddOption(Options.Expense);
             _list.AddOption(Options.Income);
+            _list.AddOption(Options.Content);
+            _list.AddOption(Options.Title);
+            _list.AddOption(Options.Comment);
             _list.AddOption(Options.Day);
             _list.AddOption(Options.Month);
             _list.AddOption(Options.Year);

@@ -177,6 +177,9 @@ public class Handlers
     public static void ExecuteList(
         bool Expense,
         bool Income,
+        string Content,
+        string Title,
+        string Comment,
         int Day,
         int Month,
         int Year
@@ -191,6 +194,18 @@ public class Handlers
             //* Get all
             AppDbContext context = new AppDbContext();
             IQueryable<ChangeBase> changes = Expense ? context.Expenses : context.Incomes;
+
+            //* Filter by content
+            if (Content != null)
+                changes = changes.ByContent(Content);
+
+            //* Filter by title
+            if (Title != null)
+                changes = changes.ByTitle(Title);
+
+            //* Filter by comment
+            if (Comment != null)
+                changes = changes.ByComment(Comment);
 
             //* Filter by day
             if (GenericController.DayIsValid(Day))
