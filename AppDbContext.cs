@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlite(@$"Data Source={SystemVariables.DatabaseFolder}money.db");
+        base.OnConfiguring(optionsBuilder);
     }
 
     /// <summary>
