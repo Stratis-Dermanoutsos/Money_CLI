@@ -13,5 +13,23 @@ public class AppDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlite(@$"Data Source={SystemVariables.DatabaseFolder}money.db");
+        base.OnConfiguring(optionsBuilder);
+    }
+
+    /// <summary>
+    /// <inheritdoc />
+    /// <br />
+    /// Overriden to set the default values for the <paramref name="DateIn" /> on creation automatically.
+    /// </summary>
+    public override int SaveChanges()
+    {
+        var entries = ChangeTracker
+            .Entries()
+            .Where(e => e.Entity is ChangeBase && e.State == EntityState.Added);
+
+        foreach (var entityEntry in entries)
+            ((ChangeBase)entityEntry.Entity).DateIn = DateTime.Now;
+
+        return base.SaveChanges();
     }
 }

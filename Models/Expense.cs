@@ -4,7 +4,7 @@ public class Expense : ChangeBase
 {
     public Expense(ChangeBase cb)
     {
-        this.Date_in = cb.Date_in;
+        this.DateIn = cb.DateIn;
         this.Title = cb.Title;
         this.Amount = cb.Amount;
         this.Year = cb.Year;

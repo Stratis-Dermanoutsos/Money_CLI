@@ -13,22 +13,22 @@ public static class SystemVariables
     /// <summary>
     /// The path to the executable's directory.
     /// </summary>
-    private static string _AppDomain { get => AppDomain.CurrentDomain.BaseDirectory; }
+    private static string _AppDomain => AppDomain.CurrentDomain.BaseDirectory;
 
     /// <summary>
     /// The full path to the System Variables file.
     /// </summary>
-    private static string SystemVariablesFileName { get => @$"{_AppDomain}SystemVariables.json"; }
+    private static string SystemVariablesFileName => @$"{_AppDomain}SystemVariables.json";
 
     /// <summary>
     /// The string containing System Variables in JSON format.
     /// </summary>
-    private static string SystemVariablesString { get => File.ReadAllText(SystemVariablesFileName); }
+    private static string SystemVariablesString => File.ReadAllText(SystemVariablesFileName);
 
     /// <summary>
     /// The System Variables as Dictionary object.
     /// </summary>
-    private static Dictionary<string, string>? SystemVariablesJSON { get => JsonSerializer.Deserialize<Dictionary<string, string>>(SystemVariablesString); }
+    private static Dictionary<string, string>? SystemVariablesJSON => JsonSerializer.Deserialize<Dictionary<string, string>>(SystemVariablesString);
 
     /// <summary>
     /// Handles the path for the folder used to export data.

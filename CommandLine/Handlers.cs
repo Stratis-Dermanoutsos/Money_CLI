@@ -65,6 +65,33 @@ public class Handlers
         }
     }
 
+    /// <summary>
+    /// Command to add a change.
+    /// <br />
+    /// <paramref name="Expense" />
+    /// <param name="Expense">boolean value that indicates if the change is expense.</param>
+    /// <br />
+    /// <paramref name="Income" /> 
+    /// <param name="Income">boolean value that indicates if the change is income.</param>
+    /// <br />
+    /// <paramref name="Title" /> 
+    /// <param name="Title">Set the title for the change to add.</param>
+    /// <br />
+    /// <paramref name="Amount" /> 
+    /// <param name="Amount">Set the amount of money for the change to add.</param>
+    /// <br />
+    /// <paramref name="Day" /> 
+    /// <param name="Day">Specify day for the change to add.</param>
+    /// <br />
+    /// <paramref name="Month" /> 
+    /// <param name="Month">Specify month for the change to add.</param>
+    /// <br />
+    /// <paramref name="Year" /> 
+    /// <param name="Year">Specify year for the change to add.</param>
+    /// <br />
+    /// <paramref name="Comment" /> 
+    /// <param name="Comment">Add a comment for the change to add.</param>
+    /// </summary>
     public static void ExecuteAdd(
         bool Expense,
         bool Income,
@@ -75,6 +102,14 @@ public class Handlers
         int Day,
         string Comment
     ) {
+        //* Validate type
+        if (Expense && Income)
+            throw new Exception("You can add either an expense or income, not both.");
+        else if (!Expense && !Income)
+            throw new Exception("Provide a valid type to add.");
+        String type = Expense ? "Expense" : "Income";
+
+        //* Build the object
         ChangeBase change = new ChangeBase()
                             .SetTitle(Title ?? string.Empty)
                             .SetAmount(Amount)
@@ -89,26 +124,16 @@ public class Handlers
         if (Day != 0)
             change.SetDay(Day);
 
-        /* Add the change to the database
-        ! Only 1 change type can be set at a time. */
-        if (Expense) {
-            Expense expense = new Expense(change);
-            try {
-                MoneyHandler.AddExpense(expense);
-                Log.Information("Expense added successfully.");
-            } catch (Exception) {
-                Log.Error("Could not add expense.");
-            }
-        } else if (Income) {
-            Income income = new Income(change);
-            try {
-                MoneyHandler.AddIncome(income);
-                Log.Information("Income added successfully.");
-            } catch (Exception) {
-                Log.Error("Could not add income.");
-            }
-        } else
-            Log.Error("You must specify whether the change is an expense or income.");
+        try {
+            //* Add change
+            if (Expense)
+                MoneyHandler.AddChange<Expense>(new Expense(change));
+            else
+                MoneyHandler.AddChange<Income>(new Income(change));
+            Log.Information($"{type} added successfully.");
+        } catch (Exception) {
+            Log.Error($"Could not add {type.ToLower()}.");
+        }
     }
 
     public static void ExecuteExport(
@@ -118,14 +143,12 @@ public class Handlers
         int Year
     )
     {
-        if (Expense)
-        {
+        if (Expense) {
             FileHandler.Export(ChangeType.Expense, Month, Year);
             return;
         }
 
-        if (Income)
-        {
+        if (Income) {
             FileHandler.Export(ChangeType.Income, Month, Year);
             return;
         }
@@ -133,103 +156,125 @@ public class Handlers
         Log.Error("Provide a valid option to export.");
     }
 
+    /// <summary>
+    /// Command to list changes.
+    /// <br />
+    /// <paramref name="Expense" />
+    /// <param name="Expense">boolean value that indicates if the changes are expenses.</param>
+    /// <br />
+    /// <paramref name="Income" /> 
+    /// <param name="Income">boolean value that indicates if the changes are incomes.</param>
+    /// <br />
+    /// <paramref name="Day" /> 
+    /// <param name="Day">Filter the changes by day.</param>
+    /// <br />
+    /// <paramref name="Month" /> 
+    /// <param name="Month">Filter the changes by month.</param>
+    /// <br />
+    /// <paramref name="Year" /> 
+    /// <param name="Year">Filter the changes by year.</param>
+    /// </summary>
     public static void ExecuteList(
         bool Expense,
         bool Income,
+        string Content,
+        string Title,
+        string Comment,
+        int Day,
         int Month,
         int Year
     ) {
-        if (Expense) {
-            try {
-                List<Expense> expenses;
+        try {
+            //* Validate type
+            if (Expense && Income)
+                throw new Exception("You can list either expenses or incomes, not both.");
+            else if (!Expense && !Income)
+                throw new Exception("Provide a valid type to list.");
 
-                // Only get the expenses that are specified by the user, or all.
-                if (GenericController.MonthIsValid(Month) && GenericController.YearIsValid(Year))
-                    expenses = MoneyHandler.AllMonthlyExpensesById(Month, Year);
-                else if (GenericController.MonthIsValid(Month))
-                    expenses = MoneyHandler.AllExpensesOnMonth(Month);
-                else if (GenericController.YearIsValid(Year))
-                    expenses = MoneyHandler.AllExpensesOnYear(Year);
-                else
-                    expenses = MoneyHandler.AllExpenses();
+            //* Get all
+            AppDbContext context = new AppDbContext();
+            IQueryable<ChangeBase> changes = Expense ? context.Expenses : context.Incomes;
 
-                if (expenses.Count == 0) {
-                    Log.Warning("There are no expenses to list.");
-                    return;
-                }
+            //* Filter by content
+            if (Content != null)
+                changes = changes.ByContent(Content);
 
-                foreach (Expense expense in expenses)
-                    Log.Information(expense.ToString("list"));
-            } catch (Exception) {
-                Log.Error("Could not list the expenses.");
+            //* Filter by title
+            if (Title != null)
+                changes = changes.ByTitle(Title);
+
+            //* Filter by comment
+            if (Comment != null)
+                changes = changes.ByComment(Comment);
+
+            //* Filter by day
+            if (GenericController.DayIsValid(Day))
+                changes = changes.ByDay(Day);
+
+            //* Filter by month
+            if (GenericController.MonthIsValid(Month))
+                changes = changes.ByMonth(Month);
+
+            //* Filter by year
+            if (GenericController.YearIsValid(Year))
+                changes = changes.ByYear(Year);
+
+            //* Print if none
+            if (changes.Count() == 0) {
+                String type = Expense ? "expenses" : "incomes";
+                Log.Warning($"There are no {type} to list.");
+                return;
             }
 
-            return;
+            //* Sort & show result
+            changes = changes.Ordered();
+            foreach (ChangeBase change in changes)
+                Log.Information(change.ToString("list"));
+        } catch (Exception e) {
+            Log.Error(e.Message);
+            // Log.Error(e.StackTrace); //? Debug
         }
-
-        if (Income) {
-            try {
-                List<Income> incomes;
-
-                // Only get the income that are specified by the user, or all.
-                if (GenericController.MonthIsValid(Month) && GenericController.YearIsValid(Year))
-                    incomes = MoneyHandler.AllMonthlyIncomeById(Month, Year);
-                else if (GenericController.MonthIsValid(Month))
-                    incomes = MoneyHandler.AllIncomeOnMonth(Month);
-                else if (GenericController.YearIsValid(Year))
-                    incomes = MoneyHandler.AllIncomeOnYear(Year);
-                else
-                    incomes = MoneyHandler.AllIncome();
-
-                if (incomes.Count == 0) {
-                    Log.Warning("There is no income to list.");
-                    return;
-                }
-
-                foreach (Income income in incomes)
-                    Log.Information(income.ToString("list"));
-            } catch (Exception) {
-                Log.Error("Could not list the income.");
-            }
-
-            return;
-        }
-
-        Log.Error("Provide a valid option to list.");
     }
 
+    /// <summary>
+    /// Command to remove a change.
+    /// <br />
+    /// <paramref name="Expense" />
+    /// <param name="Expense">boolean value that indicates if the change is expense.</param>
+    /// <br />
+    /// <paramref name="Income" /> 
+    /// <param name="Income">boolean value that indicates if the change is income.</param>
+    /// <br />
+    /// <paramref name="Id" /> 
+    /// <param name="Id">is the ID of the change to remove.</param>
+    /// </summary>
     public static void ExecuteRemove(
         bool Expense,
         bool Income,
         int Id
     ) {
-        if (Id == 0) {
-            Log.Error("Provide a valid ID.");
-            return;
+        try {
+            //* Validate id
+            if (Id == 0)
+                throw new Exception("Provide a valid ID.");
+
+            //* Validate type
+            if (Expense && Income)
+                throw new Exception("You can remove either an expense or an income, not both.");
+            else if (!Expense && !Income)
+                throw new Exception("Provide a valid type to remove.");
+            String type = Expense ? "Expense" : "Income";
+
+            //* Remove change
+            if (Expense)
+                MoneyHandler.RemoveChange<Expense>(Id);
+            else
+                MoneyHandler.RemoveChange<Income>(Id);
+
+            Log.Information($"{type} removed successfully.");
+        } catch (Exception e) {
+            Log.Error(e.Message);
+            // Log.Error(e.StackTrace); //? Debug
         }
-
-        if (Expense) {
-            try {
-                MoneyHandler.RemoveExpense(Id);
-                Log.Information("Expense removed successfully.");
-            } catch (Exception) {
-                Log.Error("Could not remove the expense.");
-            }
-
-            return;
-        }
-
-        if (Income) {
-            try {
-                MoneyHandler.RemoveIncome(Id);
-                Log.Information("Income removed successfully.");
-            } catch (Exception) {
-                Log.Error("Could not remove the income.");
-            }
-
-            return;
-        }
-
-        Log.Error("Provide a valid option to remove.");
     }
 }

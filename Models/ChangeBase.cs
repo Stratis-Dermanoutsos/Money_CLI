@@ -8,28 +8,38 @@ using System.Globalization;
 public class ChangeBase
 {
     [Key]
+    [Column("Id")]
     public int Id { get; set; }
 
-    public DateTime Date_in { get; set; } = DateTime.Now;
+    [Required]
+    [Column("Date_in")]
+    public DateTime DateIn { get; set; } = DateTime.Now;
 
     [Required]
+    [Column("Title")]
     public string Title { get; set; } = "New Change";
 
     [Required]
+    [Column("Amount")]
     public double Amount { get; set; } = 0;
 
+    [Required]
+    [Column("Day")]
     public int Day { get; set; } = DateTime.Today.Day;
 
+    [Required]
+    [Column("Month")]
     public int Month { get; set; } = DateTime.Today.Month;
 
+    [Required]
+    [Column("Year")]
     public int Year { get; set; } = DateTime.Today.Year;
 
+    [Column("Comment")]
     public string Comment { get; set; } = string.Empty;
 
     [NotMapped]
-    public DateOnly Date {
-        get => new DateOnly(Year, Month, Day);
-    }
+    public DateOnly Date => new DateOnly(Year, Month, Day);
 
     #region ToString overrides
     /// <summary>

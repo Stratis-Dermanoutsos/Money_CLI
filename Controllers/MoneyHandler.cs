@@ -1,5 +1,6 @@
 namespace Money_CLI.Controllers;
 
+using Microsoft.EntityFrameworkCore;
 using Money_CLI.Models;
 
 public static class MoneyHandler
@@ -56,7 +57,7 @@ public static class MoneyHandler
         {
             return context.Expenses
                             .Where(i => i.Month == month && i.Year == year)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -84,7 +85,7 @@ public static class MoneyHandler
         {
             return context.Incomes
                             .Where(i => i.Month == month && i.Year == year)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -100,7 +101,7 @@ public static class MoneyHandler
         {
             return context.Expenses
                             .Where(i => i.Month == month)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -114,7 +115,7 @@ public static class MoneyHandler
         {
             return context.Incomes
                             .Where(i => i.Month == month)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -130,7 +131,7 @@ public static class MoneyHandler
         {
             return context.Expenses
                             .Where(i => i.Year == year)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -144,34 +145,8 @@ public static class MoneyHandler
         {
             return context.Incomes
                             .Where(i => i.Year == year)
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
-        }
-    }
-    #endregion
-
-    #region Add new income/expense
-    /// <summary>
-    /// Adds a new expense to the database.
-    /// </summary>
-    public static void AddExpense(Expense expense)
-    {
-        using (AppDbContext context = new AppDbContext())
-        {
-            context.Expenses.Add(expense);
-            context.SaveChanges();
-        }
-    }
-
-    /// <summary>
-    /// Adds a new income to the database.
-    /// </summary>
-    public static void AddIncome(Income income)
-    {
-        using (AppDbContext context = new AppDbContext())
-        {
-            context.Incomes.Add(income);
-            context.SaveChanges();
         }
     }
     #endregion
@@ -185,7 +160,7 @@ public static class MoneyHandler
         using (AppDbContext context = new AppDbContext())
         {
             return context.Expenses
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
@@ -198,39 +173,48 @@ public static class MoneyHandler
         using (AppDbContext context = new AppDbContext())
         {
             return context.Incomes
-                            .OrderBy(i => i.Id)
+                            .Ordered()
                             .ToList();
         }
     }
     #endregion
 
-    #region Remove income/expense
     /// <summary>
-    /// Removes an expense from the database.
+    /// Adds a change to the database.
+    /// <br />
+    /// <paramref name="change"/>
+    /// <param name="change">The change to add.</param>
     /// </summary>
-    public static void RemoveExpense(int Id)
+    public static void AddChange<T>(T change) where T : ChangeBase
     {
         using (AppDbContext context = new AppDbContext())
         {
-            Expense expense = context.Expenses.Single(i => i.Id == Id);
-
-            context.Expenses.Remove(expense);
+            context.Set<T>().Add(change);
             context.SaveChanges();
         }
     }
 
     /// <summary>
-    /// Removes an income from the database.
+    /// Removes a change from the database.
+    /// <br />
+    /// <paramref name="id" />
+    /// <param name="id">The id of the change to remove.</param>
     /// </summary>
-    public static void RemoveIncome(int Id)
+    public static void RemoveChange<T>(int id) where T : ChangeBase
     {
         using (AppDbContext context = new AppDbContext())
         {
-            Income income = context.Incomes.Single(i => i.Id == Id);
+            T? change = context.Set<T>().Find(id);
 
-            context.Incomes.Remove(income);
-            context.SaveChanges();
+            if (change == null)
+                throw new Exception($"{typeof(T).Name} not found.");
+
+            try {
+                context.Set<T>().Remove(change);
+                context.SaveChanges();
+            } catch (Exception) {
+                throw new Exception($"Could not remove {typeof(T).Name.ToLower()}.");
+            }
         }
     }
-    #endregion
 }

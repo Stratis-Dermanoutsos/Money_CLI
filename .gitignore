@@ -353,3 +353,4 @@ MigrationBackup/
 .vscode/
 nuget.config
 test/
+.DS_Store
