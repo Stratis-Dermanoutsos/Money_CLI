@@ -11,14 +11,11 @@ public class GenericController
     /// <br />
     /// Returns the date in array format.
     /// </summary>
-    public static int[] GetDate
-    {
-        get => new int[] {
+    public static int[] GetDate => new int[] {
             DateTime.Now.Day,
             DateTime.Now.Month,
             DateTime.Now.Year
         };
-    }
 
     /// <summary>
     /// Ensures a directory contains correct Separator characters.
@@ -53,10 +50,7 @@ public class GenericController
     /// <br />
     /// <returns>Returns true if the day is valid, false otherwise.</returns>
     /// </summary>
-    public static bool DayIsValid(int day)
-    {
-        return 1 <= day && day <= 31;
-    }
+    public static bool DayIsValid(int day) => 1 <= day && day <= 31;
 
     /// <summary>
     /// Validates the value of the month provided.
@@ -66,10 +60,7 @@ public class GenericController
     /// <br />
     /// <returns>Returns true if the month is valid, false otherwise.</returns>
     /// </summary>
-    public static bool MonthIsValid(int month)
-    {
-        return 1 <= month && month <= 12;
-    }
+    public static bool MonthIsValid(int month) => 1 <= month && month <= 12;
 
     /// <summary>
     /// Validates the value of the year provided.
@@ -79,9 +70,6 @@ public class GenericController
     /// <br />
     /// <returns>Returns true if the year is valid, false otherwise.</returns>
     /// </summary>
-    public static bool YearIsValid(int year)
-    {
-        return 1 <= year && year <= DateTime.Now.Year;
-    }
+    public static bool YearIsValid(int year) => 1 <= year && year <= DateTime.Now.Year;
     #endregion
 }
